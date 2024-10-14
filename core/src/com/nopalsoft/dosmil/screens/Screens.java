@@ -21,8 +21,6 @@ import com.nopalsoft.dosmil.MainGame;
 import com.nopalsoft.dosmil.Settings;
 import com.nopalsoft.dosmil.game.GameScreen;
 
-import java.util.Random;
-
 public abstract class Screens extends InputAdapter implements Screen, GestureListener {
     public static final int SCREEN_WIDTH = 480;
     public static final int SCREEN_HEIGHT = 800;
@@ -33,7 +31,8 @@ public abstract class Screens extends InputAdapter implements Screen, GestureLis
     public SpriteBatch batcher;
     public Stage stage;
 
-    Random oRan;
+
+    Image blackFadeOut;
 
     public Screens(final MainGame game) {
         this.stage = game.stage;
@@ -69,10 +68,8 @@ public abstract class Screens extends InputAdapter implements Screen, GestureLis
 
     }
 
-    Image blackFadeOut;
-
     public void changeScreenWithFadeOut(final Class<?> newScreen, final MainGame game) {
-        blackFadeOut = new Image(Assets.pixelNegro);
+        blackFadeOut = new Image(Assets.pixelBlack);
         blackFadeOut.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         blackFadeOut.getColor().a = 0;
         blackFadeOut.addAction(Actions.sequence(Actions.fadeIn(.5f), Actions.run(new Runnable() {

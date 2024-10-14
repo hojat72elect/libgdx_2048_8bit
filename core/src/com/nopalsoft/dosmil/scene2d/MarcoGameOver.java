@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.nopalsoft.dosmil.Assets;
-import com.nopalsoft.dosmil.MainGame;
 import com.nopalsoft.dosmil.Settings;
 import com.nopalsoft.dosmil.screens.MainMenuScreen;
 import com.nopalsoft.dosmil.screens.Screens;
@@ -26,15 +25,15 @@ public class MarcoGameOver extends Group {
         setPosition(Screens.SCREEN_WIDTH / 2f - getWidth() / 2f, 260);
         setScale(.5f);
 
-        Image background = new Image(Assets.fondoPuntuaciones);
+        Image background = new Image(Assets.scoresBackground);
         background.setSize(getWidth(), getHeight());
         addActor(background);
 
-        String textTitulo = Assets.idiomas.get("gameOver");
+        String textTitulo = Assets.languages.get("gameOver");
         if (didWin)
-            textTitulo = Assets.idiomas.get("congratulations");
+            textTitulo = Assets.languages.get("congratulations");
 
-        Label lbCongratulations = new Label(textTitulo, Assets.labelStyleGrande);
+        Label lbCongratulations = new Label(textTitulo, Assets.labelStyleLarge);
         lbCongratulations.setAlignment(Align.center);
         lbCongratulations.setFontScale(.50f);
         lbCongratulations.setPosition(getWidth() / 2f - lbCongratulations.getWidth() / 2f, 365);
@@ -44,28 +43,27 @@ public class MarcoGameOver extends Group {
         scoreTable.setSize(getWidth(), 180);
         scoreTable.setY(170);
         scoreTable.padLeft(15).padRight(15);
-        // scoreTable.debug();
 
         // ACTUAL TIME
-        Label lbTime = new Label(Assets.idiomas.get("time"), Assets.labelStyleChico);
+        Label lbTime = new Label(Assets.languages.get("time"), Assets.labelStyleSmall);
         lbTime.setAlignment(Align.left);
 
-        Label lblNumTime = new Label(time + Assets.idiomas.get("secondAbbreviation"), Assets.labelStyleChico);
+        Label lblNumTime = new Label(time + Assets.languages.get("secondAbbreviation"), Assets.labelStyleSmall);
         lblNumTime.setAlignment(Align.right);
 
         // ACTUAL SCORE
-        Label lbScore = new Label(Assets.idiomas.get("score"), Assets.labelStyleChico);
+        Label lbScore = new Label(Assets.languages.get("score"), Assets.labelStyleSmall);
         lbScore.setAlignment(Align.left);
 
-        Label lbNumScore = new Label(score + "", Assets.labelStyleChico);
+        Label lbNumScore = new Label(score + "", Assets.labelStyleSmall);
         lbNumScore.setAlignment(Align.right);
         // lbNumMoves.setFontScale(.75f);
 
         // BEST MOVES
-        Label lbBestScore = new Label(Assets.idiomas.get("bestScore"), Assets.labelStyleChico);
+        Label lbBestScore = new Label(Assets.languages.get("bestScore"), Assets.labelStyleSmall);
         lbBestScore.setAlignment(Align.left);
 
-        Label lbBestNumScore = new Label(Settings.bestScore + "", Assets.labelStyleChico);
+        Label lbBestNumScore = new Label(Settings.bestScore + "", Assets.labelStyleSmall);
         lbBestNumScore.setAlignment(Align.right);
 
         scoreTable.add(lbTime).left();
@@ -83,7 +81,7 @@ public class MarcoGameOver extends Group {
         final Button btShareFacebook;
         final Button btShareTwitter;
 
-        btShareTwitter = new Button(Assets.btTwitter);
+        btShareTwitter = new Button(Assets.buttonTwitter);
         btShareTwitter.setSize(50, 50);
         btShareTwitter.setPosition(155, 110);
         screen.addEfectoPress(btShareTwitter);
@@ -94,7 +92,7 @@ public class MarcoGameOver extends Group {
             }
         });
 
-        btShareFacebook = new Button(Assets.btFacebook);
+        btShareFacebook = new Button(Assets.buttonFacebook);
         btShareFacebook.setSize(50, 50);
         btShareFacebook.setPosition(225, 110);
         screen.addEfectoPress(btShareFacebook);
@@ -105,7 +103,7 @@ public class MarcoGameOver extends Group {
             }
         });
 
-        final Label lbMainMenu = new Label(Assets.idiomas.get("menu"), Assets.labelStyleGrande);
+        final Label lbMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleLarge);
         lbMainMenu.setWidth(getWidth() - 10);
         lbMainMenu.setFontScale(.75f);
         lbMainMenu.setPosition(getWidth() / 2f - lbMainMenu.getWidth() / 2f, 30);

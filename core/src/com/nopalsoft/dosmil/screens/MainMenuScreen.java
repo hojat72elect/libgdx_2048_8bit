@@ -21,7 +21,7 @@ public class MainMenuScreen extends Screens {
     Label lbHelp;
     Label lbLeaderboard;
     Label lbRate;
-    Label lbMore;
+
 
     Button btMusica;
     Button btSonido;
@@ -29,10 +29,10 @@ public class MainMenuScreen extends Screens {
 
     public MainMenuScreen(final MainGame game) {
         super(game);
-        imgTitulo = new Image(Assets.titulo);
+        imgTitulo = new Image(Assets.title);
         imgTitulo.setPosition(SCREEN_WIDTH / 2f - imgTitulo.getWidth() / 2f, 580);
 
-        lbPlay = new Label(Assets.idiomas.get("play"), Assets.labelStyleGrande);
+        lbPlay = new Label(Assets.languages.get("play"), Assets.labelStyleLarge);
         lbPlay.setPosition(SCREEN_WIDTH / 2f - lbPlay.getWidth() / 2f, 450);
         addEfectoPress(lbPlay);
         lbPlay.addListener(new ClickListener() {
@@ -40,11 +40,10 @@ public class MainMenuScreen extends Screens {
                 changeScreenWithFadeOut(GameScreen.class, game);
             }
 
-            ;
         });
 
         // Help
-        lbHelp = new Label(Assets.idiomas.get("help"), Assets.labelStyleGrande);
+        lbHelp = new Label(Assets.languages.get("help"), Assets.labelStyleLarge);
         lbHelp.setPosition(SCREEN_WIDTH / 2f - lbHelp.getWidth() / 2f, 350);
         addEfectoPress(lbHelp);
         lbHelp.addListener(new ClickListener() {
@@ -52,11 +51,10 @@ public class MainMenuScreen extends Screens {
                 changeScreenWithFadeOut(HelpScreen.class, game);
             }
 
-            ;
         });
 
         // Rate
-        lbRate = new Label(Assets.idiomas.get("rate"), Assets.labelStyleGrande);
+        lbRate = new Label(Assets.languages.get("rate"), Assets.labelStyleLarge);
         lbRate.setPosition(SCREEN_WIDTH / 2f - lbRate.getWidth() / 2f, 250);
         addEfectoPress(lbRate);
         lbRate.addListener(new ClickListener() {
@@ -64,11 +62,10 @@ public class MainMenuScreen extends Screens {
                 game.reqHandler.showRater();
             }
 
-            ;
         });
 
         // Leaderboard
-        lbLeaderboard = new Label(Assets.idiomas.get("leaderboard"), Assets.labelStyleGrande);
+        lbLeaderboard = new Label(Assets.languages.get("leaderboard"), Assets.labelStyleLarge);
         lbLeaderboard.setFontScale(.85f);
         lbLeaderboard.setWidth(SCREEN_WIDTH);
         lbLeaderboard.setPosition(SCREEN_WIDTH / 2f - lbLeaderboard.getWidth() / 2f, 150);
@@ -85,10 +82,9 @@ public class MainMenuScreen extends Screens {
 
             }
 
-            ;
         });
 
-        btMusica = new Button(Assets.styleButtonMusica);
+        btMusica = new Button(Assets.buttonStyleMusic);
         btMusica.setPosition(5, 5);
         btMusica.setChecked(!Settings.isMusicOn);
         btMusica.addListener(new ClickListener() {
@@ -104,7 +100,7 @@ public class MainMenuScreen extends Screens {
             }
         });
 
-        btSonido = new Button(Assets.styleButtonSonido);
+        btSonido = new Button(Assets.buttonStyleSound);
         btSonido.setPosition(75, 5);
         btSonido.setChecked(!Settings.isSoundOn);
         btSonido.addListener(new ClickListener() {
@@ -115,7 +111,7 @@ public class MainMenuScreen extends Screens {
             }
         });
 
-        btFacebook = new Button(Assets.btFacebook);
+        btFacebook = new Button(Assets.buttonFacebook);
         btFacebook.setSize(50, 50);
         btFacebook.setPosition(SCREEN_WIDTH - btFacebook.getWidth() - 5, 10);
         addEfectoPress(btFacebook);
@@ -145,7 +141,7 @@ public class MainMenuScreen extends Screens {
     @Override
     public void draw(float delta) {
         batcher.begin();
-        batcher.draw(Assets.fondo, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        batcher.draw(Assets.background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         batcher.end();
 
     }

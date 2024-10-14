@@ -20,8 +20,8 @@ public class HelpScreen extends Screens {
 
     public HelpScreen(final MainGame game) {
         super(game);
-        lbTextHelp1 = new Label(Assets.idiomas.get("helpTop"),
-                Assets.labelStyleChico);
+        lbTextHelp1 = new Label(Assets.languages.get("helpTop"),
+                Assets.labelStyleSmall);
         lbTextHelp1.setWrap(true);
         lbTextHelp1.setWidth(SCREEN_WIDTH - 20);
         lbTextHelp1.setAlignment(Align.center);
@@ -35,8 +35,8 @@ public class HelpScreen extends Screens {
                 .setPosition(SCREEN_WIDTH / 2 - imgPuzzle.getWidth() / 2f, 290);
 
         lbTextHelp2 = new Label(
-                Assets.idiomas.get("helpBottom"),
-                Assets.labelStyleChico);
+                Assets.languages.get("helpBottom"),
+                Assets.labelStyleSmall);
         lbTextHelp2.setWrap(true);
         lbTextHelp2.setWidth(SCREEN_WIDTH - 20);
         lbTextHelp2.setAlignment(Align.center);
@@ -44,7 +44,7 @@ public class HelpScreen extends Screens {
                 SCREEN_WIDTH / 2f - lbTextHelp2.getWidth() / 2f, 200);
         lbTextHelp2.setScale(1.2f);
 
-        btBack = new Button(Assets.btAtras);
+        btBack = new Button(Assets.buttonBack);
         btBack.setSize(60, 60);
         btBack.setPosition(SCREEN_WIDTH / 2 - 30, 80);
         addEfectoPress(btBack);
@@ -63,7 +63,7 @@ public class HelpScreen extends Screens {
     @Override
     public void draw(float delta) {
         batcher.begin();
-        batcher.draw(Assets.fondo, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        batcher.draw(Assets.background, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         batcher.end();
     }
 

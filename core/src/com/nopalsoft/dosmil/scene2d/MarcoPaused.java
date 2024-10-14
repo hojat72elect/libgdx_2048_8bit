@@ -23,17 +23,17 @@ public class MarcoPaused extends Group {
         setPosition(Screens.SCREEN_WIDTH / 2f - getWidth() / 2f, 260);
         setScale(.5f);
 
-        Image background = new Image(Assets.fondoPuntuaciones);
+        Image background = new Image(Assets.scoresBackground);
         background.setSize(getWidth(), getHeight());
         addActor(background);
 
-        Label lbPaused = new Label(Assets.idiomas.get("pause"), Assets.labelStyleGrande);
+        Label lbPaused = new Label(Assets.languages.get("pause"), Assets.labelStyleLarge);
         lbPaused.setAlignment(Align.center);
         lbPaused.setFontScale(.85f);
         lbPaused.setPosition(getWidth() / 2f - lbPaused.getWidth() / 2f, 230);
         addActor(lbPaused);
 
-        final Label lbResume = new Label(Assets.idiomas.get("resume"), Assets.labelStyleChico);
+        final Label lbResume = new Label(Assets.languages.get("resume"), Assets.labelStyleSmall);
         lbResume.setWrap(true);
         lbResume.setAlignment(Align.center);
         lbResume.setPosition(getWidth() / 2f - lbResume.getWidth() / 2f, 155);
@@ -48,7 +48,7 @@ public class MarcoPaused extends Group {
             }
         });
 
-        final Label lbMainMenu = new Label(Assets.idiomas.get("menu"), Assets.labelStyleChico);
+        final Label lbMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleSmall);
         lbMainMenu.setWrap(true);
         lbMainMenu.setAlignment(Align.center);
         lbMainMenu

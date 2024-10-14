@@ -12,14 +12,13 @@ import com.nopalsoft.dosmil.screens.Screens;
 public class MainGame extends Game {
     public final GameServicesHandler gameServiceHandler;
     public final RequestHandler reqHandler;
+    public Stage stage;
+    public SpriteBatch batcher;
 
     public MainGame(RequestHandler reqHandler, GameServicesHandler gameServiceHandler) {
         this.reqHandler = reqHandler;
         this.gameServiceHandler = gameServiceHandler;
     }
-
-    public Stage stage;
-    public SpriteBatch batcher;
 
     @Override
     public void create() {
