@@ -1,4 +1,4 @@
-package com.nopalsoft.dosmil.objetos;
+package com.nopalsoft.dosmil.objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -10,59 +10,59 @@ import com.nopalsoft.dosmil.Assets;
 
 import java.util.LinkedHashMap;
 
-public class Pieza extends Actor {
-    // //Las posiciones empiezan a contar de izq a derecha desde arriba hacia abajo
-    final static LinkedHashMap<Integer, Vector2> mapPosiciones = new LinkedHashMap<>();
+public class Piece extends Actor {
+    // Positions start counting from left to right from top to bottom.
+    final static LinkedHashMap<Integer, Vector2> mapPositions = new LinkedHashMap<>();
 
     static {
-        mapPosiciones.put(0, new Vector2(20, 350));
-        mapPosiciones.put(1, new Vector2(130, 350));
-        mapPosiciones.put(2, new Vector2(240, 350));
-        mapPosiciones.put(3, new Vector2(350, 350));
-        mapPosiciones.put(4, new Vector2(20, 240));
-        mapPosiciones.put(5, new Vector2(130, 240));
-        mapPosiciones.put(6, new Vector2(240, 240));
-        mapPosiciones.put(7, new Vector2(350, 240));
-        mapPosiciones.put(8, new Vector2(20, 130));
-        mapPosiciones.put(9, new Vector2(130, 130));
-        mapPosiciones.put(10, new Vector2(240, 130));
-        mapPosiciones.put(11, new Vector2(350, 130));
-        mapPosiciones.put(12, new Vector2(20, 20));
-        mapPosiciones.put(13, new Vector2(130, 20));
-        mapPosiciones.put(14, new Vector2(240, 20));
-        mapPosiciones.put(15, new Vector2(350, 20));
+        mapPositions.put(0, new Vector2(20, 350));
+        mapPositions.put(1, new Vector2(130, 350));
+        mapPositions.put(2, new Vector2(240, 350));
+        mapPositions.put(3, new Vector2(350, 350));
+        mapPositions.put(4, new Vector2(20, 240));
+        mapPositions.put(5, new Vector2(130, 240));
+        mapPositions.put(6, new Vector2(240, 240));
+        mapPositions.put(7, new Vector2(350, 240));
+        mapPositions.put(8, new Vector2(20, 130));
+        mapPositions.put(9, new Vector2(130, 130));
+        mapPositions.put(10, new Vector2(240, 130));
+        mapPositions.put(11, new Vector2(350, 130));
+        mapPositions.put(12, new Vector2(20, 20));
+        mapPositions.put(13, new Vector2(130, 20));
+        mapPositions.put(14, new Vector2(240, 20));
+        mapPositions.put(15, new Vector2(350, 20));
     }
 
-    final float SIZE = 110;// Tamano final de la ficha
+    final float SIZE = 110; // Final size of the card
     public boolean justChanged = false;
-    public int posicion;
+    public int position;
     TextureRegion keyframe;
-    private int valor;// esta pieza la hice privada porque cuando cambio su valor tambien tengo que cambiar la imagen de esta pieza
+    private int worth;// I made this piece private because when I change its value I also have to change the image of this piece.
 
-    public Pieza(int posicion, int valor) {
-        this.posicion = posicion;
+    public Piece(int position, int worth) {
+        this.position = position;
         setWidth(SIZE);
         setHeight(SIZE);
         setOrigin(SIZE / 2f, SIZE / 2f);
 
-        setPosition(mapPosiciones.get(posicion).x, mapPosiciones.get(posicion).y);
-        setValor(valor);
+        setPosition(mapPositions.get(position).x, mapPositions.get(position).y);
+        setWorth(worth);
 
-        if (valor != 0) {// Si la pieza vale 0 es un cuadro de los azules que no tienen nada
+        if (worth != 0) {// If the piece is worth 0, it is a blue square that has nothing
             setScale(.8f);
             addAction(Actions.scaleTo(1, 1, .25f));
-            Gdx.app.log("Se creo pieza en ", posicion + "");
+            Gdx.app.log("Se creo pieza en ", position + "");
         }
 
     }
 
-    public int getValor() {
-        return valor;
+    public int getWorth() {
+        return worth;
     }
 
-    public void setValor(int valor) {
-        this.valor = valor;
-        switch (valor) {
+    public void setWorth(int worth) {
+        this.worth = worth;
+        switch (worth) {
             default:
             case 0:
                 keyframe = Assets.emptyTile;
@@ -111,9 +111,9 @@ public class Pieza extends Actor {
     }
 
     public void moveToPosition(int pos) {
-        this.posicion = pos;
+        this.position = pos;
         Gdx.app.log("Move to ", pos + "");
-        addAction(Actions.moveTo(mapPosiciones.get(posicion).x, mapPosiciones.get(posicion).y, .075f));
+        addAction(Actions.moveTo(mapPositions.get(position).x, mapPositions.get(position).y, .075f));
     }
 
     @Override

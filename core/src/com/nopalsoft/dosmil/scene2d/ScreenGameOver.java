@@ -14,11 +14,11 @@ import com.nopalsoft.dosmil.Settings;
 import com.nopalsoft.dosmil.screens.MainMenuScreen;
 import com.nopalsoft.dosmil.screens.Screens;
 
-public class MarcoGameOver extends Group {
+public class ScreenGameOver extends Group {
 
     Screens screen;
 
-    public MarcoGameOver(final Screens screen, boolean didWin, int time, long score) {
+    public ScreenGameOver(final Screens screen, boolean didWin, int time, long score) {
         this.screen = screen;
         setSize(420, 450);
         setOrigin(getWidth() / 2f, getHeight() / 2f);

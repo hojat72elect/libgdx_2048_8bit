@@ -12,8 +12,6 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.nopalsoft.dosmil.Assets;
 import com.nopalsoft.dosmil.MainGame;
 import com.nopalsoft.dosmil.Settings;
-import com.nopalsoft.dosmil.scene2d.MarcoGameOver;
-import com.nopalsoft.dosmil.scene2d.MarcoPaused;
 import com.nopalsoft.dosmil.screens.MainMenuScreen;
 import com.nopalsoft.dosmil.screens.Screens;
 
@@ -28,7 +26,7 @@ public class GameScreen extends Screens {
     Table tbMarcadores;
     Label lbTime, lbScore, lbBestScore;
     Button btPause;
-    MarcoPaused oPaused;
+    com.nopalsoft.dosmil.scene2d.ScreenPaused oPaused;
     private final Stage stageGame;
 
     public GameScreen(MainGame game) {
@@ -67,7 +65,7 @@ public class GameScreen extends Screens {
         tbMarcadores.add(lbScore);
         tbMarcadores.add(lbBestScore);
 
-        oPaused = new MarcoPaused(this);
+        oPaused = new com.nopalsoft.dosmil.scene2d.ScreenPaused(this);
 
         btPause = new Button(Assets.buttonStylePause);
         btPause.setPosition((float) SCREEN_WIDTH / 2 - btPause.getWidth() / 2, 110);
@@ -97,7 +95,7 @@ public class GameScreen extends Screens {
             updateRunning(delta);
         }
 
-        lbTime.setText(Assets.languages.get("time") + "\n" + ((int) oBoard.tiempo));
+        lbTime.setText(Assets.languages.get("time") + "\n" + ((int) oBoard.time));
         lbScore.setText(Assets.languages.get("score") + "\n" + (oBoard.score));
 
     }
@@ -156,7 +154,7 @@ public class GameScreen extends Screens {
         state = STATE_GAME_OVER;
         Settings.setBestScores(oBoard.score);
         game.gameServiceHandler.submitScore(oBoard.score);
-        MarcoGameOver oGameOver = new MarcoGameOver(this, oBoard.didWin, (int) oBoard.tiempo, oBoard.score);
+        com.nopalsoft.dosmil.scene2d.ScreenGameOver oGameOver = new com.nopalsoft.dosmil.scene2d.ScreenGameOver(this, oBoard.didWin, (int) oBoard.time, oBoard.score);
         stage.addActor(oGameOver);
         game.reqHandler.showAdBanner();
 

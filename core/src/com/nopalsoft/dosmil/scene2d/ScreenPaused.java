@@ -12,11 +12,11 @@ import com.nopalsoft.dosmil.game.GameScreen;
 import com.nopalsoft.dosmil.screens.MainMenuScreen;
 import com.nopalsoft.dosmil.screens.Screens;
 
-public class MarcoPaused extends Group {
+public class ScreenPaused extends Group {
 
     Screens screen;
 
-    public MarcoPaused(final Screens screen) {
+    public ScreenPaused(final Screens screen) {
         this.screen = screen;
         setSize(420, 300);
         setOrigin(getWidth() / 2f, getHeight() / 2f);

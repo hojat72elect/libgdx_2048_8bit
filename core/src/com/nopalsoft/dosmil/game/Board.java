@@ -7,38 +7,40 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 import com.nopalsoft.dosmil.Assets;
-import com.nopalsoft.dosmil.objetos.Pieza;
 import com.nopalsoft.dosmil.screens.Screens;
-
+import com.nopalsoft.dosmil.objects.Piece;
 import java.util.Iterator;
 
 public class Board extends Group {
+
     static public final int STATE_RUNNING = 1;
     static public final int STATE_NO_MORE_MOVES = 2;
     static public final int STATE_GAMEOVER = 3;
+
     public int state;
-    public float tiempo;
+    public float time;
     public long score;
     public boolean moveUp, moveDown, moveLeft, moveRight;
     public boolean didWin;
-    Array<Pieza> arrPiezas;
+
+    Array<com.nopalsoft.dosmil.objects.Piece> arrayPieces;
 
     public Board() {
         setSize(480, 480);
         setPosition(Screens.SCREEN_WIDTH / 2f - getWidth() / 2f, 200);
         addBackground();
 
-        arrPiezas = new Array<>(16);
+        arrayPieces = new Array<>(16);
 
         didWin = false;
 
-        // Inicializco el tablero con puros ceros
+        // I initialize the board with pure zeros
         for (int i = 0; i < 16; i++) {
-            addActor(new Pieza(i, 0));
+            addActor(new com.nopalsoft.dosmil.objects.Piece(i, 0));
         }
 
-        addPieza();
-        addPieza();
+        addPiece();
+        addPiece();
         state = STATE_RUNNING;
     }
 
@@ -50,18 +52,18 @@ public class Board extends Group {
 
     }
 
-    public void addPieza() {
+    public void addPiece() {
         if (isTableroFull())
             return;
         boolean vacio = false;
         int num = 0;
         while (!vacio) {
             num = MathUtils.random(15);
-            vacio = checarEspacioVacio(num);
+            vacio = checkEmptySpace(num);
         }
-        int valor = MathUtils.random(1) == 0 ? 2 : 4;// Las valor inicial puede ser 2 o 4
-        Pieza obj = new Pieza(num, valor);
-        arrPiezas.add(obj);
+        int worth = MathUtils.random(1) == 0 ? 2 : 4; // The initial value can be 2 or 4
+        Piece obj = new Piece(num, worth);
+        arrayPieces.add(obj);
         addActor(obj);
 
     }
@@ -70,11 +72,11 @@ public class Board extends Group {
     public void act(float delta) {
         super.act(delta);
 
-        // Si ya no hay acciones pendientes ahora si me pongo en gameover
+        // If there are no pending actions now I will go to gameover
         if (state == STATE_NO_MORE_MOVES) {
             int numActions = 0;
-            for (com.nopalsoft.dosmil.objetos.Pieza arrPieza : arrPiezas) {
-                numActions += arrPieza.getActions().size;
+            for (Piece piece : arrayPieces) {
+                numActions += piece.getActions().size;
             }
             numActions += getActions().size;
             if (numActions == 0)
@@ -86,24 +88,24 @@ public class Board extends Group {
 
         if (moveUp) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Pieza> i = arrPiezas.iterator();
+                Iterator<Piece> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Pieza obj = i.next();
-                    int nextPos = obj.posicion - 4;
+                    Piece obj = i.next();
+                    int nextPos = obj.position - 4;
                     // Primero reviso si se puede juntar
-                    if (checarMergeUp(obj.posicion, nextPos)) {
-                        Pieza objNext = getPiezaEnPos(nextPos);
+                    if (checarMergeUp(obj.position, nextPos)) {
+                        Piece objNext = getPieceInPosition(nextPos);
                         if (!objNext.justChanged && !obj.justChanged) {
                             i.remove();
                             removePieza(obj);
-                            objNext.setValor(objNext.getValor() * 2);
-                            score += objNext.getValor();
+                            objNext.setWorth(objNext.getWorth() * 2);
+                            score += objNext.getWorth();
                             objNext.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
                     }
-                    if (checarEspacioVacioUp(nextPos)) {
+                    if (checkEmptySpaceUp(nextPos)) {
                         obj.moveToPosition(nextPos);
                         didMovePieza = true;
                     }
@@ -111,24 +113,24 @@ public class Board extends Group {
             }
         } else if (moveDown) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Pieza> i = arrPiezas.iterator();
+                Iterator<Piece> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Pieza obj = i.next();
-                    int nextPos = obj.posicion + 4;
+                    Piece obj = i.next();
+                    int nextPos = obj.position + 4;
                     // Primero reviso si se puede juntar
-                    if (checarMergeUp(obj.posicion, nextPos)) {
-                        Pieza objNext = getPiezaEnPos(nextPos);
+                    if (checarMergeUp(obj.position, nextPos)) {
+                        Piece objNext = getPieceInPosition(nextPos);
                         if (!objNext.justChanged && !obj.justChanged) {
                             i.remove();
                             removePieza(obj);
-                            objNext.setValor(objNext.getValor() * 2);
-                            score += objNext.getValor();
+                            objNext.setWorth(objNext.getWorth() * 2);
+                            score += objNext.getWorth();
                             objNext.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
                     }
-                    if (checarEspacioVacioDown(nextPos)) {
+                    if (checkEmptySpaceDown(nextPos)) {
                         obj.moveToPosition(nextPos);
                         didMovePieza = true;
                     }
@@ -136,24 +138,24 @@ public class Board extends Group {
             }
         } else if (moveLeft) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Pieza> i = arrPiezas.iterator();
+                Iterator<Piece> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Pieza obj = i.next();
-                    int nextPos = obj.posicion - 1;
+                    Piece obj = i.next();
+                    int nextPos = obj.position - 1;
                     // Primero reviso si se puede juntar
-                    if (checarMergeSides(obj.posicion, nextPos)) {
-                        Pieza objNext = getPiezaEnPos(nextPos);
+                    if (checkMergeSides(obj.position, nextPos)) {
+                        Piece objNext = getPieceInPosition(nextPos);
                         if (!objNext.justChanged && !obj.justChanged) {
                             i.remove();
                             removePieza(obj);
-                            objNext.setValor(objNext.getValor() * 2);
-                            score += objNext.getValor();
+                            objNext.setWorth(objNext.getWorth() * 2);
+                            score += objNext.getWorth();
                             objNext.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
                     }
-                    if (checarEspacioVacioLeft(nextPos)) {
+                    if (checkEmptySpaceLeft(nextPos)) {
                         obj.moveToPosition(nextPos);
                         didMovePieza = true;
                     }
@@ -161,24 +163,24 @@ public class Board extends Group {
             }
         } else if (moveRight) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Pieza> i = arrPiezas.iterator();
+                Iterator<Piece> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Pieza obj = i.next();
-                    int nextPos = obj.posicion + 1;
-                    // Primero reviso si se puede juntar
-                    if (checarMergeSides(obj.posicion, nextPos)) {
-                        Pieza objNext = getPiezaEnPos(nextPos);
+                    Piece obj = i.next();
+                    int nextPos = obj.position + 1;
+                    // First I check if it can be put together
+                    if (checkMergeSides(obj.position, nextPos)) {
+                        Piece objNext = getPieceInPosition(nextPos);
                         if (!objNext.justChanged && !obj.justChanged) {
                             i.remove();
                             removePieza(obj);
-                            objNext.setValor(objNext.getValor() * 2);
-                            score += objNext.getValor();
+                            objNext.setWorth(objNext.getWorth() * 2);
+                            score += objNext.getWorth();
                             objNext.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
                     }
-                    if (checarEspacioVacioRight(nextPos)) {
+                    if (checkEmptySpaceRight(nextPos)) {
                         obj.moveToPosition(nextPos);
                         didMovePieza = true;
                     }
@@ -192,103 +194,103 @@ public class Board extends Group {
         }
 
         if ((moveUp || moveDown || moveRight || moveLeft) && didMovePieza) {
-            addPieza();
+            addPiece();
             Assets.playSoundMove();
         }
 
-        if (isTableroFull() && !isPosibleToMove()) {
+        if (isTableroFull() && !isPossibleToMove()) {
             state = STATE_NO_MORE_MOVES;
         }
 
         moveDown = moveLeft = moveRight = moveUp = false;
 
-        tiempo += Gdx.graphics.getRawDeltaTime();
+        time += Gdx.graphics.getRawDeltaTime();
 
     }
 
-    private boolean checarMergeSides(int posActual, int nextPosition) {
-        if ((posActual == 3 || posActual == 7 || posActual == 11) && nextPosition > posActual)// Solo pueden juntarse las del mismo rengolon
+    private boolean checkMergeSides(int currentPosition, int nextPosition) {
+        if ((currentPosition == 3 || currentPosition == 7 || currentPosition == 11) && nextPosition > currentPosition)// Only those of the same row can be joined together.
             return false;
-        if ((posActual == 12 || posActual == 8 || posActual == 4) && nextPosition < posActual)
+        if ((currentPosition == 12 || currentPosition == 8 || currentPosition == 4) && nextPosition < currentPosition)
             return false;
-        Pieza obj1 = getPiezaEnPos(posActual);
-        Pieza obj2 = getPiezaEnPos(nextPosition);
+        Piece obj1 = getPieceInPosition(currentPosition);
+        Piece obj2 = getPieceInPosition(nextPosition);
 
         if (obj1 == null || obj2 == null)
             return false;
-        else return obj1.getValor() == obj2.getValor();
+        else return obj1.getWorth() == obj2.getWorth();
 
     }
 
     private boolean checarMergeUp(int posActual, int nextPosition) {
 
-        Pieza obj1 = getPiezaEnPos(posActual);
-        Pieza obj2 = getPiezaEnPos(nextPosition);
+        Piece obj1 = getPieceInPosition(posActual);
+        Piece obj2 = getPieceInPosition(nextPosition);
 
         if (obj1 == null || obj2 == null)
             return false;
-        else return obj1.getValor() == obj2.getValor();
+        else return obj1.getWorth() == obj2.getWorth();
 
     }
 
-    private boolean checarEspacioVacio(int pos) {
-        ArrayIterator<Pieza> ite = new ArrayIterator<>(arrPiezas);
+    private boolean checkEmptySpace(int pos) {
+        ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
-            if (ite.next().posicion == pos)
+            if (ite.next().position == pos)
                 return false;
         }
         return true;
     }
 
-    private boolean checarEspacioVacioUp(int pos) {
+    private boolean checkEmptySpaceUp(int pos) {
         if (pos < 0)
             return false;
-        return checarEspacioVacio(pos);
+        return checkEmptySpace(pos);
     }
 
-    private boolean checarEspacioVacioDown(int pos) {
+    private boolean checkEmptySpaceDown(int pos) {
         if (pos > 15)
             return false;
-        return checarEspacioVacio(pos);
+        return checkEmptySpace(pos);
     }
 
-    private boolean checarEspacioVacioRight(int pos) {
+    private boolean checkEmptySpaceRight(int pos) {
         if (pos == 4 || pos == 8 || pos == 12 || pos == 16)
             return false;
-        return checarEspacioVacio(pos);
+        return checkEmptySpace(pos);
     }
 
-    private boolean checarEspacioVacioLeft(int pos) {
+    private boolean checkEmptySpaceLeft(int pos) {
         if (pos == 11 || pos == 7 || pos == 3 || pos == -1)
             return false;
-        return checarEspacioVacio(pos);
+        return checkEmptySpace(pos);
     }
 
-    private Pieza getPiezaEnPos(int pos) {
-        ArrayIterator<Pieza> ite = new ArrayIterator<>(arrPiezas);
+    private Piece getPieceInPosition(int pos) {
+        ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
-            Pieza obj = ite.next();
-            if (obj.posicion == pos)
+            Piece obj = ite.next();
+            if (obj.position == pos)
                 return obj;
         }
         return null;
     }
 
     private boolean isTableroFull() {
-        return arrPiezas.size == (16);
+        return arrayPieces.size == (16);
     }
 
     private boolean didWin() {
-        ArrayIterator<Pieza> ite = new ArrayIterator<>(arrPiezas);
+        ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
-            Pieza obj = ite.next();
-            if (obj.getValor() >= 2000)// si hay una pieza que valga mas de 15 mil se gana
+            Piece obj = ite.next();
+            if (obj.getWorth() >= 2000)// si hay una pieza que valga mas de 15 mil se gana
                 return true;
         }
         return false;
     }
 
-    private boolean isPosibleToMove() {
+    private boolean isPossibleToMove() {
 
         boolean canMove = isPosibleToMoveRightLeft();
 
@@ -302,7 +304,7 @@ public class Board extends Group {
     boolean isPosibleToMoveRightLeft() {
         for (int ren = 0; ren < 16; ren += 4) {
             for (int col = ren; col < ren + 3; col++) {
-                if (checarMergeSides(col, col + 1))
+                if (checkMergeSides(col, col + 1))
                     return true;
             }
         }
@@ -319,8 +321,8 @@ public class Board extends Group {
         return false;
     }
 
-    private void removePieza(Pieza obj) {
+    private void removePieza(com.nopalsoft.dosmil.objects.Piece obj) {
         removeActor(obj);
-        arrPiezas.removeValue(obj, true);
+        arrayPieces.removeValue(obj, true);
     }
 }
