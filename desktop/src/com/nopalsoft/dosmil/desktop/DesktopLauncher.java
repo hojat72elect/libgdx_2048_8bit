@@ -8,15 +8,6 @@ import com.nopalsoft.dosmil.handlers.RequestHandler;
 
 public class DesktopLauncher {
 
-    public static void main(String[] args) {
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "2048 8Bit";
-        cfg.width = 480;
-        cfg.height = 800;
-
-        new LwjglApplication(new MainGame(reqHandler, gameHandler), cfg);
-    }
-
     static RequestHandler reqHandler = new RequestHandler() {
 
         @Override
@@ -90,7 +81,6 @@ public class DesktopLauncher {
 
         }
     };
-
     static GoogleGameServicesHandler gameHandler = new GoogleGameServicesHandler() {
 
         @Override
@@ -135,4 +125,13 @@ public class DesktopLauncher {
 
         }
     };
+
+    public static void main(String[] args) {
+        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
+        cfg.title = "2048 8Bit";
+        cfg.width = 480;
+        cfg.height = 800;
+
+        new LwjglApplication(new MainGame(reqHandler, gameHandler), cfg);
+    }
 }
