@@ -47,7 +47,7 @@ public class HelpScreen extends Screens {
         btBack = new Button(Assets.buttonBack);
         btBack.setSize(60, 60);
         btBack.setPosition(SCREEN_WIDTH / 2 - 30, 80);
-        addEfectoPress(btBack);
+        addPressEffect(btBack);
         btBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

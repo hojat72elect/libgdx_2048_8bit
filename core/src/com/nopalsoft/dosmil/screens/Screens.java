@@ -27,7 +27,7 @@ public abstract class Screens extends InputAdapter implements Screen, GestureLis
 
     public MainGame game;
 
-    public OrthographicCamera oCam;
+    public OrthographicCamera camera;
     public SpriteBatch batcher;
     public Stage stage;
 
@@ -40,8 +40,8 @@ public abstract class Screens extends InputAdapter implements Screen, GestureLis
         this.batcher = game.batcher;
         this.game = game;
 
-        oCam = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
-        oCam.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
+        camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+        camera.position.set(SCREEN_WIDTH / 2f, SCREEN_HEIGHT / 2f, 0);
 
         GestureDetector detector = new GestureDetector(20, .5f, 2, .15f, this);
 
@@ -59,8 +59,8 @@ public abstract class Screens extends InputAdapter implements Screen, GestureLis
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        oCam.update();
-        batcher.setProjectionMatrix(oCam.combined);
+        camera.update();
+        batcher.setProjectionMatrix(camera.combined);
         draw(delta);
 
         stage.act(delta);
@@ -72,24 +72,19 @@ public abstract class Screens extends InputAdapter implements Screen, GestureLis
         blackFadeOut = new Image(Assets.pixelBlack);
         blackFadeOut.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         blackFadeOut.getColor().a = 0;
-        blackFadeOut.addAction(Actions.sequence(Actions.fadeIn(.5f), Actions.run(new Runnable() {
-            @Override
-            public void run() {
-                if (newScreen == GameScreen.class)
-                    game.setScreen(new GameScreen(game));
-                else if (newScreen == MainMenuScreen.class)
-                    game.setScreen(new MainMenuScreen(game));
-                else if (newScreen == HelpScreen.class)
-                    game.setScreen(new HelpScreen(game));
+        blackFadeOut.addAction(Actions.sequence(Actions.fadeIn(.5f), Actions.run(() -> {
+            if (newScreen == GameScreen.class)
+                game.setScreen(new GameScreen(game));
+            else if (newScreen == MainMenuScreen.class)
+                game.setScreen(new MainMenuScreen(game));
+            else if (newScreen == HelpScreen.class)
+                game.setScreen(new HelpScreen(game));
 
-                // El blackFadeOut se remueve del stage cuando se le da new Screens(game) "Revisar el constructor de la clase Screens" por lo que no hay necesidad de hacer
-                // blackFadeout.remove();
-            }
         })));
         stage.addActor(blackFadeOut);
     }
 
-    public void addEfectoPress(final Actor actor) {
+    public void addPressEffect(final Actor actor) {
         actor.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

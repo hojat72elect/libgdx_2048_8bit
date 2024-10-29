@@ -34,7 +34,7 @@ public class MainMenuScreen extends Screens {
 
         lbPlay = new Label(Assets.languages.get("play"), Assets.labelStyleLarge);
         lbPlay.setPosition(SCREEN_WIDTH / 2f - lbPlay.getWidth() / 2f, 450);
-        addEfectoPress(lbPlay);
+        addPressEffect(lbPlay);
         lbPlay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 changeScreenWithFadeOut(GameScreen.class, game);
@@ -45,7 +45,7 @@ public class MainMenuScreen extends Screens {
         // Help
         lbHelp = new Label(Assets.languages.get("help"), Assets.labelStyleLarge);
         lbHelp.setPosition(SCREEN_WIDTH / 2f - lbHelp.getWidth() / 2f, 350);
-        addEfectoPress(lbHelp);
+        addPressEffect(lbHelp);
         lbHelp.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 changeScreenWithFadeOut(HelpScreen.class, game);
@@ -56,7 +56,7 @@ public class MainMenuScreen extends Screens {
         // Rate
         lbRate = new Label(Assets.languages.get("rate"), Assets.labelStyleLarge);
         lbRate.setPosition(SCREEN_WIDTH / 2f - lbRate.getWidth() / 2f, 250);
-        addEfectoPress(lbRate);
+        addPressEffect(lbRate);
         lbRate.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 game.reqHandler.showRater();
@@ -72,7 +72,7 @@ public class MainMenuScreen extends Screens {
         lbLeaderboard.setAlignment(Align.center);
         lbLeaderboard.setWrap(true);
 
-        addEfectoPress(lbLeaderboard);
+        addPressEffect(lbLeaderboard);
         lbLeaderboard.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 if (game.gameServiceHandler.isSignedIn()) {
@@ -114,7 +114,7 @@ public class MainMenuScreen extends Screens {
         btFacebook = new Button(Assets.buttonFacebook);
         btFacebook.setSize(50, 50);
         btFacebook.setPosition(SCREEN_WIDTH - btFacebook.getWidth() - 5, 10);
-        addEfectoPress(btFacebook);
+        addPressEffect(btFacebook);
         btFacebook.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

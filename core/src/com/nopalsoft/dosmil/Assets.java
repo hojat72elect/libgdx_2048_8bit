@@ -61,14 +61,18 @@ public class Assets {
     private static Music music2;
 
     public static void loadFont() {
-        fontSmall = new BitmapFont(Gdx.files.internal("data/font25.fnt"),
-                atlas.findRegion("font25"));
+        fontSmall = new BitmapFont(
+                Gdx.files.internal("data/font25.fnt"),
+                atlas.findRegion("font25")
+        );
 
-        fontLarge = new BitmapFont(Gdx.files.internal("data/font45.fnt"),
-                atlas.findRegion("font45"));
+        fontLarge = new BitmapFont(
+                Gdx.files.internal("data/font45.fnt"),
+                atlas.findRegion("font45")
+        );
     }
 
-    private static void cargarEstilos() {
+    private static void loadStyles() {
         labelStyleSmall = new LabelStyle(fontSmall, Color.WHITE);
         labelStyleLarge = new LabelStyle(fontLarge, Color.WHITE);
 
@@ -81,18 +85,18 @@ public class Assets {
 
 
         // Sound Button
-        TextureRegionDrawable botonSonidoOn = new TextureRegionDrawable(
+        TextureRegionDrawable buttonSoundOn = new TextureRegionDrawable(
                 atlas.findRegion("btSonido"));
-        TextureRegionDrawable botonSonidoOff = new TextureRegionDrawable(
+        TextureRegionDrawable buttonSoundOff = new TextureRegionDrawable(
                 atlas.findRegion("btSinSonido"));
-        buttonStyleSound = new ButtonStyle(botonSonidoOn, null, botonSonidoOff);
+        buttonStyleSound = new ButtonStyle(buttonSoundOn, null, buttonSoundOff);
 
-        /* ImageButton Pause */
-        TextureRegionDrawable btPauseUp = new TextureRegionDrawable(
+        // ImageButton Pause
+        TextureRegionDrawable buttonPauseUp = new TextureRegionDrawable(
                 atlas.findRegion("btPause"));
-        TextureRegionDrawable btPauseDown = new TextureRegionDrawable(
+        TextureRegionDrawable buttonPauseDown = new TextureRegionDrawable(
                 atlas.findRegion("btPauseDown"));
-        buttonStylePause = new ButtonStyle(btPauseUp, btPauseDown, null);
+        buttonStylePause = new ButtonStyle(buttonPauseUp, buttonPauseDown, null);
 
     }
 
@@ -100,7 +104,7 @@ public class Assets {
         atlas = new TextureAtlas(Gdx.files.internal("data/atlasMap.txt"));
 
         loadFont();
-        cargarEstilos();
+        loadStyles();
 
         if (MathUtils.randomBoolean())
             background = atlas.findRegion("fondo");

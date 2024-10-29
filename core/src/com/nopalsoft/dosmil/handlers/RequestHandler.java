@@ -9,9 +9,9 @@ public interface RequestHandler {
 
     void showFacebook();
 
-    void shareOnFacebook(final String mensaje);
+    void shareOnFacebook(final String message);
 
-    void shareOnTwitter(final String mensaje);
+    void shareOnTwitter(final String message);
 
     void removeAds();
 

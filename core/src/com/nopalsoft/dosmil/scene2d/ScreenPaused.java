@@ -27,52 +27,52 @@ public class ScreenPaused extends Group {
         background.setSize(getWidth(), getHeight());
         addActor(background);
 
-        Label lbPaused = new Label(Assets.languages.get("pause"), Assets.labelStyleLarge);
-        lbPaused.setAlignment(Align.center);
-        lbPaused.setFontScale(.85f);
-        lbPaused.setPosition(getWidth() / 2f - lbPaused.getWidth() / 2f, 230);
-        addActor(lbPaused);
+        Label labelPaused = new Label(Assets.languages.get("pause"), Assets.labelStyleLarge);
+        labelPaused.setAlignment(Align.center);
+        labelPaused.setFontScale(.85f);
+        labelPaused.setPosition(getWidth() / 2f - labelPaused.getWidth() / 2f, 230);
+        addActor(labelPaused);
 
-        final Label lbResume = new Label(Assets.languages.get("resume"), Assets.labelStyleSmall);
-        lbResume.setWrap(true);
-        lbResume.setAlignment(Align.center);
-        lbResume.setPosition(getWidth() / 2f - lbResume.getWidth() / 2f, 155);
-        screen.addEfectoPress(lbResume);
-        lbResume.addListener(new ClickListener() {
+        final Label labelResume = new Label(Assets.languages.get("resume"), Assets.labelStyleSmall);
+        labelResume.setWrap(true);
+        labelResume.setAlignment(Align.center);
+        labelResume.setPosition(getWidth() / 2f - labelResume.getWidth() / 2f, 155);
+        screen.addPressEffect(labelResume);
+        labelResume.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                GameScreen oGame = (GameScreen) screen;
+                GameScreen gameScreen = (GameScreen) screen;
                 remove();
-                oGame.setRunning();
+                gameScreen.setRunning();
 
             }
         });
 
-        final Label lbMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleSmall);
-        lbMainMenu.setWrap(true);
-        lbMainMenu.setAlignment(Align.center);
-        lbMainMenu
-                .setPosition(getWidth() / 2f - lbMainMenu.getWidth() / 2f, 65);
-        screen.addEfectoPress(lbMainMenu);
-        lbMainMenu.addListener(new ClickListener() {
+        final Label labelMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleSmall);
+        labelMainMenu.setWrap(true);
+        labelMainMenu.setAlignment(Align.center);
+        labelMainMenu
+                .setPosition(getWidth() / 2f - labelMainMenu.getWidth() / 2f, 65);
+        screen.addPressEffect(labelMainMenu);
+        labelMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                screen.changeScreenWithFadeOut(MainMenuScreen.class,
-                        screen.game);
+                screen.changeScreenWithFadeOut(
+                        MainMenuScreen.class,
+                        screen.game
+                );
 
             }
         });
 
-        addAction(Actions.sequence(Actions.scaleTo(1, 1, .2f),
-                Actions.run(new Runnable() {
+        addAction(Actions.sequence(
+                Actions.scaleTo(1, 1, .2f),
+                Actions.run(() -> {
+                    addActor(labelMainMenu);
+                    addActor(labelResume);
 
-                    @Override
-                    public void run() {
-                        addActor(lbMainMenu);
-                        addActor(lbResume);
-
-                    }
-                })));
+                })
+        ));
 
     }
 }

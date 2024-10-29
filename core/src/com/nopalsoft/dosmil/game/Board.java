@@ -15,7 +15,7 @@ public class Board extends Group {
 
     static public final int STATE_RUNNING = 1;
     static public final int STATE_NO_MORE_MOVES = 2;
-    static public final int STATE_GAMEOVER = 3;
+    static public final int STATE_GAME_OVER = 3;
 
     public int state;
     public float time;
@@ -53,7 +53,7 @@ public class Board extends Group {
     }
 
     public void addPiece() {
-        if (isTableroFull())
+        if (isBoardFull())
             return;
         boolean vacio = false;
         int num = 0;
@@ -80,7 +80,7 @@ public class Board extends Group {
             }
             numActions += getActions().size;
             if (numActions == 0)
-                state = STATE_GAMEOVER;
+                state = STATE_GAME_OVER;
             return;
         }
 
@@ -92,15 +92,15 @@ public class Board extends Group {
                 while (i.hasNext()) {
                     Piece obj = i.next();
                     int nextPos = obj.position - 4;
-                    // Primero reviso si se puede juntar
-                    if (checarMergeUp(obj.position, nextPos)) {
-                        Piece objNext = getPieceInPosition(nextPos);
-                        if (!objNext.justChanged && !obj.justChanged) {
+                    // First I check if it can be put together
+                    if (checkMergeUp(obj.position, nextPos)) {
+                        Piece nextPiece = getPieceInPosition(nextPos);
+                        if (!nextPiece.justChanged && !obj.justChanged) {
                             i.remove();
-                            removePieza(obj);
-                            objNext.setWorth(objNext.getWorth() * 2);
-                            score += objNext.getWorth();
-                            objNext.justChanged = true;
+                            removePiece(obj);
+                            nextPiece.setWorth(nextPiece.getWorth() * 2);
+                            score += nextPiece.getWorth();
+                            nextPiece.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
@@ -117,15 +117,15 @@ public class Board extends Group {
                 while (i.hasNext()) {
                     Piece obj = i.next();
                     int nextPos = obj.position + 4;
-                    // Primero reviso si se puede juntar
-                    if (checarMergeUp(obj.position, nextPos)) {
-                        Piece objNext = getPieceInPosition(nextPos);
-                        if (!objNext.justChanged && !obj.justChanged) {
+                    // First I check if it can be put together
+                    if (checkMergeUp(obj.position, nextPos)) {
+                        Piece nextPiece = getPieceInPosition(nextPos);
+                        if (!nextPiece.justChanged && !obj.justChanged) {
                             i.remove();
-                            removePieza(obj);
-                            objNext.setWorth(objNext.getWorth() * 2);
-                            score += objNext.getWorth();
-                            objNext.justChanged = true;
+                            removePiece(obj);
+                            nextPiece.setWorth(nextPiece.getWorth() * 2);
+                            score += nextPiece.getWorth();
+                            nextPiece.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
@@ -140,14 +140,14 @@ public class Board extends Group {
             for (int con = 0; con < 4; con++) {
                 Iterator<Piece> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Piece obj = i.next();
-                    int nextPos = obj.position - 1;
-                    // Primero reviso si se puede juntar
-                    if (checkMergeSides(obj.position, nextPos)) {
-                        Piece objNext = getPieceInPosition(nextPos);
-                        if (!objNext.justChanged && !obj.justChanged) {
+                    Piece piece = i.next();
+                    int nextPosition = piece.position - 1;
+                    // First I check if it can be put together
+                    if (checkMergeSides(piece.position, nextPosition)) {
+                        Piece objNext = getPieceInPosition(nextPosition);
+                        if (!objNext.justChanged && !piece.justChanged) {
                             i.remove();
-                            removePieza(obj);
+                            removePiece(piece);
                             objNext.setWorth(objNext.getWorth() * 2);
                             score += objNext.getWorth();
                             objNext.justChanged = true;
@@ -155,24 +155,24 @@ public class Board extends Group {
                             continue;
                         }
                     }
-                    if (checkEmptySpaceLeft(nextPos)) {
-                        obj.moveToPosition(nextPos);
+                    if (checkEmptySpaceLeft(nextPosition)) {
+                        piece.moveToPosition(nextPosition);
                         didMovePieza = true;
                     }
                 }
             }
         } else if (moveRight) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Piece> i = arrayPieces.iterator();
-                while (i.hasNext()) {
-                    Piece obj = i.next();
+                Iterator<Piece> iterator = arrayPieces.iterator();
+                while (iterator.hasNext()) {
+                    Piece obj = iterator.next();
                     int nextPos = obj.position + 1;
                     // First I check if it can be put together
                     if (checkMergeSides(obj.position, nextPos)) {
                         Piece objNext = getPieceInPosition(nextPos);
                         if (!objNext.justChanged && !obj.justChanged) {
-                            i.remove();
-                            removePieza(obj);
+                            iterator.remove();
+                            removePiece(obj);
                             objNext.setWorth(objNext.getWorth() * 2);
                             score += objNext.getWorth();
                             objNext.justChanged = true;
@@ -198,7 +198,7 @@ public class Board extends Group {
             Assets.playSoundMove();
         }
 
-        if (isTableroFull() && !isPossibleToMove()) {
+        if (isBoardFull() && !isPossibleToMove()) {
             state = STATE_NO_MORE_MOVES;
         }
 
@@ -222,61 +222,61 @@ public class Board extends Group {
 
     }
 
-    private boolean checarMergeUp(int posActual, int nextPosition) {
+    private boolean checkMergeUp(int posActual, int nextPosition) {
 
-        Piece obj1 = getPieceInPosition(posActual);
-        Piece obj2 = getPieceInPosition(nextPosition);
+        Piece piece1 = getPieceInPosition(posActual);
+        Piece piece2 = getPieceInPosition(nextPosition);
 
-        if (obj1 == null || obj2 == null)
+        if (piece1 == null || piece2 == null)
             return false;
-        else return obj1.getWorth() == obj2.getWorth();
+        else return piece1.getWorth() == piece2.getWorth();
 
     }
 
-    private boolean checkEmptySpace(int pos) {
+    private boolean checkEmptySpace(int position) {
         ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
-            if (ite.next().position == pos)
+            if (ite.next().position == position)
                 return false;
         }
         return true;
     }
 
-    private boolean checkEmptySpaceUp(int pos) {
-        if (pos < 0)
+    private boolean checkEmptySpaceUp(int position) {
+        if (position < 0)
             return false;
-        return checkEmptySpace(pos);
+        return checkEmptySpace(position);
     }
 
-    private boolean checkEmptySpaceDown(int pos) {
-        if (pos > 15)
+    private boolean checkEmptySpaceDown(int position) {
+        if (position > 15)
             return false;
-        return checkEmptySpace(pos);
+        return checkEmptySpace(position);
     }
 
-    private boolean checkEmptySpaceRight(int pos) {
-        if (pos == 4 || pos == 8 || pos == 12 || pos == 16)
+    private boolean checkEmptySpaceRight(int position) {
+        if (position == 4 || position == 8 || position == 12 || position == 16)
             return false;
-        return checkEmptySpace(pos);
+        return checkEmptySpace(position);
     }
 
-    private boolean checkEmptySpaceLeft(int pos) {
-        if (pos == 11 || pos == 7 || pos == 3 || pos == -1)
+    private boolean checkEmptySpaceLeft(int position) {
+        if (position == 11 || position == 7 || position == 3 || position == -1)
             return false;
-        return checkEmptySpace(pos);
+        return checkEmptySpace(position);
     }
 
-    private Piece getPieceInPosition(int pos) {
+    private Piece getPieceInPosition(int position) {
         ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
             Piece obj = ite.next();
-            if (obj.position == pos)
+            if (obj.position == position)
                 return obj;
         }
         return null;
     }
 
-    private boolean isTableroFull() {
+    private boolean isBoardFull() {
         return arrayPieces.size == (16);
     }
 
@@ -284,7 +284,7 @@ public class Board extends Group {
         ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
             Piece obj = ite.next();
-            if (obj.getWorth() >= 2000)// si hay una pieza que valga mas de 15 mil se gana
+            if (obj.getWorth() >= 2000)// If there is a piece worth more than 15 thousand, you win.
                 return true;
         }
         return false;
@@ -292,16 +292,16 @@ public class Board extends Group {
 
     private boolean isPossibleToMove() {
 
-        boolean canMove = isPosibleToMoveRightLeft();
+        boolean canMove = isPossibleToMoveRightLeft();
 
-        if (isPosibleToMoveUpDown()) {
+        if (isPossibleToMoveUpDown()) {
             canMove = true;
         }
         return canMove;
 
     }
 
-    boolean isPosibleToMoveRightLeft() {
+    boolean isPossibleToMoveRightLeft() {
         for (int ren = 0; ren < 16; ren += 4) {
             for (int col = ren; col < ren + 3; col++) {
                 if (checkMergeSides(col, col + 1))
@@ -311,18 +311,18 @@ public class Board extends Group {
         return false;
     }
 
-    boolean isPosibleToMoveUpDown() {
-        for (int col = 0; col < 4; col++) {
-            for (int ren = col; ren < col + 16; ren += 4) {
-                if (checarMergeUp(ren, ren + 4))
+    boolean isPossibleToMoveUpDown() {
+        for (int column = 0; column < 4; column++) {
+            for (int ren = column; ren < column + 16; ren += 4) {
+                if (checkMergeUp(ren, ren + 4))
                     return true;
             }
         }
         return false;
     }
 
-    private void removePieza(com.nopalsoft.dosmil.objects.Piece obj) {
-        removeActor(obj);
-        arrayPieces.removeValue(obj, true);
+    private void removePiece(Piece piece) {
+        removeActor(piece);
+        arrayPieces.removeValue(piece, true);
     }
 }

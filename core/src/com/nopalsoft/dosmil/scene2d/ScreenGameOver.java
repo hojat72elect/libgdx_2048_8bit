@@ -29,15 +29,15 @@ public class ScreenGameOver extends Group {
         background.setSize(getWidth(), getHeight());
         addActor(background);
 
-        String textTitulo = Assets.languages.get("gameOver");
+        String gameOverTitle = Assets.languages.get("gameOver");
         if (didWin)
-            textTitulo = Assets.languages.get("congratulations");
+            gameOverTitle = Assets.languages.get("congratulations");
 
-        Label lbCongratulations = new Label(textTitulo, Assets.labelStyleLarge);
-        lbCongratulations.setAlignment(Align.center);
-        lbCongratulations.setFontScale(.50f);
-        lbCongratulations.setPosition(getWidth() / 2f - lbCongratulations.getWidth() / 2f, 365);
-        addActor(lbCongratulations);
+        Label labelCongratulations = new Label(gameOverTitle, Assets.labelStyleLarge);
+        labelCongratulations.setAlignment(Align.center);
+        labelCongratulations.setFontScale(.50f);
+        labelCongratulations.setPosition(getWidth() / 2f - labelCongratulations.getWidth() / 2f, 365);
+        addActor(labelCongratulations);
 
         final Table scoreTable = new Table();
         scoreTable.setSize(getWidth(), 180);
@@ -45,87 +45,83 @@ public class ScreenGameOver extends Group {
         scoreTable.padLeft(15).padRight(15);
 
         // ACTUAL TIME
-        Label lbTime = new Label(Assets.languages.get("time"), Assets.labelStyleSmall);
-        lbTime.setAlignment(Align.left);
+        Label labelTime = new Label(Assets.languages.get("time"), Assets.labelStyleSmall);
+        labelTime.setAlignment(Align.left);
 
-        Label lblNumTime = new Label(time + Assets.languages.get("secondAbbreviation"), Assets.labelStyleSmall);
-        lblNumTime.setAlignment(Align.right);
+        Label labelNumTime = new Label(time + Assets.languages.get("secondAbbreviation"), Assets.labelStyleSmall);
+        labelNumTime.setAlignment(Align.right);
 
         // ACTUAL SCORE
-        Label lbScore = new Label(Assets.languages.get("score"), Assets.labelStyleSmall);
-        lbScore.setAlignment(Align.left);
+        Label labelScore = new Label(Assets.languages.get("score"), Assets.labelStyleSmall);
+        labelScore.setAlignment(Align.left);
 
-        Label lbNumScore = new Label(score + "", Assets.labelStyleSmall);
-        lbNumScore.setAlignment(Align.right);
-        // lbNumMoves.setFontScale(.75f);
+        Label labelNumScore = new Label(score + "", Assets.labelStyleSmall);
+        labelNumScore.setAlignment(Align.right);
+
 
         // BEST MOVES
-        Label lbBestScore = new Label(Assets.languages.get("bestScore"), Assets.labelStyleSmall);
-        lbBestScore.setAlignment(Align.left);
+        Label labelBestScore = new Label(Assets.languages.get("bestScore"), Assets.labelStyleSmall);
+        labelBestScore.setAlignment(Align.left);
 
-        Label lbBestNumScore = new Label(Settings.bestScore + "", Assets.labelStyleSmall);
-        lbBestNumScore.setAlignment(Align.right);
+        Label labelBestNumScore = new Label(Settings.bestScore + "", Assets.labelStyleSmall);
+        labelBestNumScore.setAlignment(Align.right);
 
-        scoreTable.add(lbTime).left();
-        scoreTable.add(lblNumTime).right().expand();
-
-        scoreTable.row();
-        scoreTable.add(lbScore).left();
-        scoreTable.add(lbNumScore).right().expand();
+        scoreTable.add(labelTime).left();
+        scoreTable.add(labelNumTime).right().expand();
 
         scoreTable.row();
-        scoreTable.add(lbBestScore).left();
-        scoreTable.add(lbBestNumScore).right().expand();
+        scoreTable.add(labelScore).left();
+        scoreTable.add(labelNumScore).right().expand();
+
+        scoreTable.row();
+        scoreTable.add(labelBestScore).left();
+        scoreTable.add(labelBestNumScore).right().expand();
 
         // Facebook Twitter
-        final Button btShareFacebook;
-        final Button btShareTwitter;
+        final Button buttonShareFacebook;
+        final Button buttonShareTwitter;
 
-        btShareTwitter = new Button(Assets.buttonTwitter);
-        btShareTwitter.setSize(50, 50);
-        btShareTwitter.setPosition(155, 110);
-        screen.addEfectoPress(btShareTwitter);
-        btShareTwitter.addListener(new ClickListener() {
+        buttonShareTwitter = new Button(Assets.buttonTwitter);
+        buttonShareTwitter.setSize(50, 50);
+        buttonShareTwitter.setPosition(155, 110);
+        screen.addPressEffect(buttonShareTwitter);
+        buttonShareTwitter.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screen.game.reqHandler.shareOnTwitter("My best score playing 2048 8Bit is " + Settings.bestScore + " points, can you beat me?");
             }
         });
 
-        btShareFacebook = new Button(Assets.buttonFacebook);
-        btShareFacebook.setSize(50, 50);
-        btShareFacebook.setPosition(225, 110);
-        screen.addEfectoPress(btShareFacebook);
-        btShareFacebook.addListener(new ClickListener() {
+        buttonShareFacebook = new Button(Assets.buttonFacebook);
+        buttonShareFacebook.setSize(50, 50);
+        buttonShareFacebook.setPosition(225, 110);
+        screen.addPressEffect(buttonShareFacebook);
+        buttonShareFacebook.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screen.game.reqHandler.shareOnFacebook("My best score playing 2048 8Bit is " + Settings.bestScore + " points, can you beat me?");
             }
         });
 
-        final Label lbMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleLarge);
-        lbMainMenu.setWidth(getWidth() - 10);
-        lbMainMenu.setFontScale(.75f);
-        lbMainMenu.setPosition(getWidth() / 2f - lbMainMenu.getWidth() / 2f, 30);
-        lbMainMenu.setWrap(true);
-        lbMainMenu.setAlignment(Align.center);
-        screen.addEfectoPress(lbMainMenu);
-        lbMainMenu.addListener(new ClickListener() {
+        final Label labelMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleLarge);
+        labelMainMenu.setWidth(getWidth() - 10);
+        labelMainMenu.setFontScale(.75f);
+        labelMainMenu.setPosition(getWidth() / 2f - labelMainMenu.getWidth() / 2f, 30);
+        labelMainMenu.setWrap(true);
+        labelMainMenu.setAlignment(Align.center);
+        screen.addPressEffect(labelMainMenu);
+        labelMainMenu.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 screen.changeScreenWithFadeOut(MainMenuScreen.class, screen.game);
             }
         });
 
-        addAction(Actions.sequence(Actions.scaleTo(1, 1, .2f), Actions.run(new Runnable() {
-
-            @Override
-            public void run() {
-                addActor(scoreTable);
-                addActor(btShareTwitter);
-                addActor(btShareFacebook);
-                addActor(lbMainMenu);
-            }
+        addAction(Actions.sequence(Actions.scaleTo(1, 1, .2f), Actions.run(() -> {
+            addActor(scoreTable);
+            addActor(buttonShareTwitter);
+            addActor(buttonShareFacebook);
+            addActor(labelMainMenu);
         })));
 
     }

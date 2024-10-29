@@ -36,12 +36,12 @@ public class DesktopLauncher {
         }
 
         @Override
-        public void shareOnTwitter(String mensaje) {
+        public void shareOnTwitter(String message) {
 
         }
 
         @Override
-        public void shareOnFacebook(String mensaje) {
+        public void shareOnFacebook(String message) {
 
         }
 

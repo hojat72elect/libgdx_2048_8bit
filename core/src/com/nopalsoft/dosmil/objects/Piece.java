@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.nopalsoft.dosmil.Assets;
-
 import java.util.LinkedHashMap;
 
 public class Piece extends Actor {
