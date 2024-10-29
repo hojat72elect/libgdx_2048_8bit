@@ -48,16 +48,22 @@ class HelpScreen(game: MainGame) : Screens(game) {
         })
 
         // Add all of them to our screen
-        stage.addActor(labelTextHelp1)
-        stage.addActor(labelTextHelp2)
-        stage.addActor(buttonBack)
-        stage.addActor(imagePuzzle)
+        with(stage) {
+            addActor(labelTextHelp1)
+            addActor(labelTextHelp2)
+            addActor(buttonBack)
+            addActor(imagePuzzle)
+        }
+
     }
 
     override fun draw(delta: Float) {
-        batcher.begin()
-        batcher.draw(Assets.background, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
-        batcher.end()
+        with(batcher){
+            begin()
+            draw(Assets.background, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+            end()
+        }
+
     }
 
     override fun update(delta: Float) {}
