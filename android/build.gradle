@@ -1,12 +1,11 @@
 android {
+    namespace "com.nopalsoft.dosmil.android"
     buildToolsVersion "30.0.3"
     compileSdkVersion 30
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
             java.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
@@ -18,7 +17,7 @@ android {
     }
     defaultConfig {
         applicationId "com.nopalsoft.dosmil"
-        minSdkVersion 14
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
