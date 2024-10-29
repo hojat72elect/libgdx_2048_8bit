@@ -24,13 +24,13 @@ class ScreenPaused(screen: Screens) : Group() {
         background.setSize(width, height)
         addActor(background)
 
-        val labelPaused = Label(Assets.languages?.get("pause") , Assets.labelStyleLarge)
+        val labelPaused = Label(Assets.languages?.get("pause"), Assets.labelStyleLarge)
         labelPaused.setAlignment(Align.center)
         labelPaused.setFontScale(.85f)
         labelPaused.setPosition(width / 2f - labelPaused.width / 2f, 230f)
         addActor(labelPaused)
 
-        val labelResume = Label(Assets.languages?.get("resume") , Assets.labelStyleSmall)
+        val labelResume = Label(Assets.languages?.get("resume"), Assets.labelStyleSmall)
         labelResume.wrap = true
         labelResume.setAlignment(Align.center)
         labelResume.setPosition(width / 2f - labelResume.width / 2f, 155f)
@@ -44,7 +44,7 @@ class ScreenPaused(screen: Screens) : Group() {
         })
 
 
-        val labelMainMenu = Label(Assets.languages?.get("menu") , Assets.labelStyleSmall)
+        val labelMainMenu = Label(Assets.languages?.get("menu"), Assets.labelStyleSmall)
         labelMainMenu.wrap = true
         labelMainMenu.setAlignment(Align.center)
         labelMainMenu

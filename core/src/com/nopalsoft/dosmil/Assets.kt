@@ -16,27 +16,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import com.badlogic.gdx.utils.I18NBundle
 
 object Assets {
-    @JvmField
     var languages: I18NBundle? = null
-
     var fontSmall: BitmapFont? = null
     var fontLarge: BitmapFont? = null
-
-    @JvmField
     var background: AtlasRegion? = null
-    @JvmField
     var backgroundBoard: AtlasRegion? = null
     var puzzleSolved: AtlasRegion? = null
     var title: AtlasRegion? = null
-
     var pixelBlack: NinePatchDrawable? = null
-
     var scoresBackground: AtlasRegion? = null
-
     var buttonBack: TextureRegionDrawable? = null
     var buttonFacebook: TextureRegionDrawable? = null
     var buttonTwitter: TextureRegionDrawable? = null
-
     var emptyTile: AtlasRegion? = null
     var tile2: AtlasRegion? = null
     var tile4: AtlasRegion? = null
@@ -49,16 +40,11 @@ object Assets {
     var tile512: AtlasRegion? = null
     var tile1024: AtlasRegion? = null
     var tile2048: AtlasRegion? = null
-
-    @JvmField
     var labelStyleSmall: LabelStyle? = null
     var labelStyleLarge: LabelStyle? = null
-
     var buttonStyleMusic: ButtonStyle? = null
-    @JvmField
     var buttonStylePause: ButtonStyle? = null
     var buttonStyleSound: ButtonStyle? = null
-
     var atlas: TextureAtlas? = null
     var move1: Sound? = null
     var move2: Sound? = null
@@ -158,7 +144,7 @@ object Assets {
 
         Settings.load()
 
-        music2?.setVolume(.1f)
+        music2?.volume = .1f
 
         playMusic()
 
@@ -173,7 +159,6 @@ object Assets {
         music2!!.stop()
     }
 
-    @JvmStatic
     fun playSoundMove() {
         if (Settings.isSoundOn) {
             if (MathUtils.randomBoolean()) move1!!.play(.3f)

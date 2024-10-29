@@ -11,42 +11,29 @@ import com.nopalsoft.dosmil.objects.Tile
 import com.nopalsoft.dosmil.screens.Screens
 
 class Board : Group() {
-    @JvmField
-    var state: Int
-    @JvmField
+    var state = STATE_RUNNING
     var time: Float = 0f
-    @JvmField
     var score: Long = 0
-    @JvmField
     var moveUp: Boolean = false
-    @JvmField
     var moveDown: Boolean = false
-    @JvmField
     var moveLeft: Boolean = false
-    @JvmField
     var moveRight: Boolean = false
-    @JvmField
-    var didWin: Boolean
+    var didWin = false
 
-    var arrayPieces: Array<Tile>
+    private var arrayTiles= Array<Tile>(16)
 
     init {
         setSize(480f, 480f)
         setPosition(Screens.SCREEN_WIDTH / 2f - width / 2f, 200f)
         addBackground()
 
-        arrayPieces = Array(16)
-
-        didWin = false
-
         // I initialize the board with pure zeros
         for (i in 0..15) {
             addActor(Tile(i, 0))
         }
 
-        addPiece()
-        addPiece()
-        state = STATE_RUNNING
+        addTile()
+        addTile()
     }
 
     private fun addBackground() {
@@ -56,17 +43,17 @@ class Board : Group() {
         addActor(background)
     }
 
-    fun addPiece() {
+    private fun addTile() {
         if (isBoardFull) return
-        var vacio = false
+        var isEmpty = false
         var num = 0
-        while (!vacio) {
+        while (isEmpty.not()) {
             num = MathUtils.random(15)
-            vacio = checkEmptySpace(num)
+            isEmpty = checkEmptySpace(num)
         }
         val worth = if (MathUtils.random(1) == 0) 2 else 4 // The initial value can be 2 or 4
         val obj = Tile(num, worth)
-        arrayPieces.add(obj)
+        arrayTiles.add(obj)
         addActor(obj)
     }
 
@@ -76,7 +63,7 @@ class Board : Group() {
         // If there are no pending actions now I will go to gameover
         if (state == STATE_NO_MORE_MOVES) {
             var numActions = 0
-            for (tile in arrayPieces) {
+            for (tile in arrayTiles) {
                 numActions += tile.actions.size
             }
             numActions += actions.size
@@ -84,11 +71,11 @@ class Board : Group() {
             return
         }
 
-        var didMovePieza = false
+        var didMoveTiles = false
 
         if (moveUp) {
             for (con in 0..3) {
-                val i: MutableIterator<Tile> = arrayPieces.iterator()
+                val i: MutableIterator<Tile> = arrayTiles.iterator()
                 while (i.hasNext()) {
                     val obj = i.next()
                     val nextPos = obj.position - 4
@@ -98,22 +85,22 @@ class Board : Group() {
                         if (!nextTile!!.justChanged && !obj.justChanged) {
                             i.remove()
                             removePiece(obj)
-                            nextTile.worth = nextTile.worth * 2
+                            nextTile.worth *= 2
                             score += nextTile.worth.toLong()
                             nextTile.justChanged = true
-                            didMovePieza = true
+                            didMoveTiles = true
                             continue
                         }
                     }
                     if (checkEmptySpaceUp(nextPos)) {
                         obj.moveToPosition(nextPos)
-                        didMovePieza = true
+                        didMoveTiles = true
                     }
                 }
             }
         } else if (moveDown) {
             for (con in 0..3) {
-                val i: MutableIterator<Tile> = arrayPieces.iterator()
+                val i: MutableIterator<Tile> = arrayTiles.iterator()
                 while (i.hasNext()) {
                     val obj = i.next()
                     val nextPos = obj.position + 4
@@ -126,19 +113,19 @@ class Board : Group() {
                             nextTile.worth = nextTile.worth * 2
                             score += nextTile.worth.toLong()
                             nextTile.justChanged = true
-                            didMovePieza = true
+                            didMoveTiles = true
                             continue
                         }
                     }
                     if (checkEmptySpaceDown(nextPos)) {
                         obj.moveToPosition(nextPos)
-                        didMovePieza = true
+                        didMoveTiles = true
                     }
                 }
             }
         } else if (moveLeft) {
             for (con in 0..3) {
-                val i: MutableIterator<Tile> = arrayPieces.iterator()
+                val i: MutableIterator<Tile> = arrayTiles.iterator()
                 while (i.hasNext()) {
                     val tile = i.next()
                     val nextPosition = tile.position - 1
@@ -151,19 +138,19 @@ class Board : Group() {
                             objNext.worth = objNext.worth * 2
                             score += objNext.worth.toLong()
                             objNext.justChanged = true
-                            didMovePieza = true
+                            didMoveTiles = true
                             continue
                         }
                     }
                     if (checkEmptySpaceLeft(nextPosition)) {
                         tile.moveToPosition(nextPosition)
-                        didMovePieza = true
+                        didMoveTiles = true
                     }
                 }
             }
         } else if (moveRight) {
             for (con in 0..3) {
-                val iterator: MutableIterator<Tile> = arrayPieces.iterator()
+                val iterator: MutableIterator<Tile> = arrayTiles.iterator()
                 while (iterator.hasNext()) {
                     val obj = iterator.next()
                     val nextPos = obj.position + 1
@@ -173,16 +160,16 @@ class Board : Group() {
                         if (!objNext!!.justChanged && !obj.justChanged) {
                             iterator.remove()
                             removePiece(obj)
-                            objNext.worth = objNext.worth * 2
+                            objNext.worth *= 2
                             score += objNext.worth.toLong()
                             objNext.justChanged = true
-                            didMovePieza = true
+                            didMoveTiles = true
                             continue
                         }
                     }
                     if (checkEmptySpaceRight(nextPos)) {
                         obj.moveToPosition(nextPos)
-                        didMovePieza = true
+                        didMoveTiles = true
                     }
                 }
             }
@@ -193,8 +180,8 @@ class Board : Group() {
             didWin = true
         }
 
-        if ((moveUp || moveDown || moveRight || moveLeft) && didMovePieza) {
-            addPiece()
+        if ((moveUp || moveDown || moveRight || moveLeft) && didMoveTiles) {
+            addTile()
             playSoundMove()
         }
 
@@ -230,7 +217,7 @@ class Board : Group() {
     }
 
     private fun checkEmptySpace(position: Int): Boolean {
-        val ite = Array.ArrayIterator(arrayPieces)
+        val ite = Array.ArrayIterator(arrayTiles)
         while (ite.hasNext()) {
             if (ite.next().position == position) return false
         }
@@ -258,7 +245,7 @@ class Board : Group() {
     }
 
     private fun getPieceInPosition(position: Int): Tile? {
-        val ite = Array.ArrayIterator(arrayPieces)
+        val ite = Array.ArrayIterator(arrayTiles)
         while (ite.hasNext()) {
             val obj = ite.next()
             if (obj.position == position) return obj
@@ -267,10 +254,10 @@ class Board : Group() {
     }
 
     private val isBoardFull: Boolean
-        get() = arrayPieces.size == (16)
+        get() = arrayTiles.size == (16)
 
     private fun didWin(): Boolean {
-        val ite = Array.ArrayIterator(arrayPieces)
+        val ite = Array.ArrayIterator(arrayTiles)
         while (ite.hasNext()) {
             val obj = ite.next()
             if (obj.worth >= 2000)  // If there is a piece worth more than 15 thousand, you win.
@@ -289,7 +276,7 @@ class Board : Group() {
             return canMove
         }
 
-    val isPossibleToMoveRightLeft: Boolean
+    private val isPossibleToMoveRightLeft: Boolean
         get() {
             var ren = 0
             while (ren < 16) {
@@ -301,7 +288,7 @@ class Board : Group() {
             return false
         }
 
-    val isPossibleToMoveUpDown: Boolean
+    private val isPossibleToMoveUpDown: Boolean
         get() {
             for (column in 0..3) {
                 var ren = column
@@ -315,12 +302,12 @@ class Board : Group() {
 
     private fun removePiece(tile: Tile) {
         removeActor(tile)
-        arrayPieces.removeValue(tile, true)
+        arrayTiles.removeValue(tile, true)
     }
 
     companion object {
-        const val STATE_RUNNING: Int = 1
-        const val STATE_NO_MORE_MOVES: Int = 2
-        const val STATE_GAME_OVER: Int = 3
+        private const val STATE_RUNNING = 1
+        private const val STATE_NO_MORE_MOVES = 2
+        const val STATE_GAME_OVER = 3
     }
 }

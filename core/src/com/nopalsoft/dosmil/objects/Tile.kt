@@ -11,10 +11,9 @@ import com.nopalsoft.dosmil.Assets
 /**
  * Each one of the tiles in the game's board.
  */
-class Tile(@JvmField var position: Int, worth: Int) : Actor() {
+class Tile(var position: Int, worth: Int) : Actor() {
 
 
-    @JvmField
     var justChanged = false
     private var keyframe: TextureRegion? = null
     var worth: Int = 0 // I made this piece private because when I change its value I also have to change the image of this piece.

@@ -19,38 +19,26 @@ import com.nopalsoft.dosmil.screens.MainMenuScreen
 import com.nopalsoft.dosmil.screens.Screens
 
 class GameScreen(game: MainGame) : Screens(game) {
-    var state: Int = 0
 
-    var board: Board = Board()
-    var tableMarkers: Table? = null
-    var labelTime: Label? = null
-    var labelScore: Label? = null
-    var labelBestScore: Label? = null
-    var buttonPause: Button? = null
-    var screenPaused: ScreenPaused? = null
-    private val stageGame =
-        Stage(StretchViewport(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat()))
+    private var state: Int = 0
+    private var board: Board = Board()
+    private var tableMarkers = Table()
+    private var labelTime: Label? = null
+    private var labelScore: Label? = null
+    private var labelBestScore: Label? = null
+    private var buttonPause: Button? = null
+    private var screenPaused: ScreenPaused? = null
+    private val stageGame = Stage(StretchViewport(SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat()))
 
     init {
         stageGame.addActor(board)
 
-        initUI()
 
-        Settings.numberTimesPlayed++
-    }
-
-    private fun initUI() {
-        tableMarkers = Table()
-        tableMarkers!!.setSize(SCREEN_WIDTH.toFloat(), 100f)
-        tableMarkers!!.setPosition(0f, 680f)
+        tableMarkers.setSize(SCREEN_WIDTH.toFloat(), 100f)
+        tableMarkers.setPosition(0f, 680f)
 
 
-        labelTime = Label(
-            """
-                ${Assets.languages!!["score"]}
-                0
-                """.trimIndent(), Assets.labelStyleSmall
-        )
+        labelTime = Label("${Assets.languages!!["score"]}0", Assets.labelStyleSmall)
         labelTime!!.setAlignment(Align.center)
         labelTime!!.setFontScale(1.15f)
 
@@ -72,10 +60,10 @@ class GameScreen(game: MainGame) : Screens(game) {
         labelBestScore!!.setAlignment(Align.center)
         labelBestScore!!.setFontScale(1.15f)
 
-        tableMarkers!!.row().expand().uniform().center()
-        tableMarkers!!.add(labelTime)
-        tableMarkers!!.add(labelScore)
-        tableMarkers!!.add(labelBestScore)
+        tableMarkers.row().expand().uniform().center()
+        tableMarkers.add(labelTime)
+        tableMarkers.add(labelScore)
+        tableMarkers.add(labelBestScore)
 
         screenPaused = ScreenPaused(this)
 
@@ -89,6 +77,8 @@ class GameScreen(game: MainGame) : Screens(game) {
 
         stage!!.addActor(tableMarkers)
         stage!!.addActor(buttonPause)
+
+        Settings.numberTimesPlayed++
     }
 
     override fun resize(width: Int, height: Int) {
@@ -194,19 +184,27 @@ class GameScreen(game: MainGame) : Screens(game) {
      */
     override fun keyDown(keycode: Int): Boolean {
         if (state != STATE_PAUSED) {
-            if (keycode == Input.Keys.LEFT) {
-                board.moveLeft = true
-                setRunning()
-            } else if (keycode == Input.Keys.RIGHT) {
-                board.moveRight = true
-                setRunning()
-            } else if (keycode == Input.Keys.UP) {
-                board.moveUp = true
-                setRunning()
-            } else if (keycode == Input.Keys.DOWN) {
-                board.moveDown = true
+            when (keycode) {
+                Input.Keys.LEFT -> {
+                    board.moveLeft = true
+                    setRunning()
+                }
 
-                setRunning()
+                Input.Keys.RIGHT -> {
+                    board.moveRight = true
+                    setRunning()
+                }
+
+                Input.Keys.UP -> {
+                    board.moveUp = true
+                    setRunning()
+                }
+
+                Input.Keys.DOWN -> {
+                    board.moveDown = true
+
+                    setRunning()
+                }
             }
         } else if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
             changeScreenWithFadeOut(MainMenuScreen::class.java, game)

@@ -23,16 +23,11 @@ import com.nopalsoft.dosmil.game.GameScreen
 import kotlin.math.abs
 
 abstract class Screens(game: MainGame) : InputAdapter(), Screen, GestureListener {
-    @JvmField
+
     var game: MainGame
-
     var camera: OrthographicCamera
-    @JvmField
     var batcher: SpriteBatch?
-    @JvmField
     var stage: Stage? = game.stage
-
-
     var blackFadeOut: Image? = null
 
     init {

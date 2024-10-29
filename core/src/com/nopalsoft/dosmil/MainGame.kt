@@ -9,10 +9,9 @@ import com.nopalsoft.dosmil.screens.Screens
 
 class MainGame : Game() {
 
-    @JvmField
-     var stage: Stage? = null
-    @JvmField
-     var batcher: SpriteBatch? = null
+
+    var stage: Stage? = null
+    var batcher: SpriteBatch? = null
 
     override fun create() {
         stage = Stage(StretchViewport(Screens.SCREEN_WIDTH.toFloat(), Screens.SCREEN_HEIGHT.toFloat()))

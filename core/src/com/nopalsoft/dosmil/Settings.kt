@@ -6,17 +6,13 @@ import com.badlogic.gdx.Preferences
 object Settings {
     private val pref: Preferences = Gdx.app
         .getPreferences("com.tiar.dosmil")
-    @JvmField
     var isMusicOn: Boolean = false
-    @JvmField
     var isSoundOn: Boolean = false
     var didBuyNoAds: Boolean = false
-    @JvmField
     var numberTimesPlayed: Int = 0
-    @JvmField
     var bestScore: Long = 0
 
-    @JvmStatic
+
     fun load() {
         bestScore = pref.getLong("bestScore", 0)
         numberTimesPlayed = pref.getInteger("numeroVecesJugadas", 0)
@@ -35,7 +31,6 @@ object Settings {
         pref.flush()
     }
 
-    @JvmStatic
     fun setBestScores(score: Long) {
         if (bestScore < score) bestScore = score
         save()

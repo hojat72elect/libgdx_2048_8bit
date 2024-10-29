@@ -58,7 +58,7 @@ class HelpScreen(game: MainGame) : Screens(game) {
     }
 
     override fun draw(delta: Float) {
-        with(batcher){
+        with(batcher) {
             this?.begin()
             this?.draw(Assets.background, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
             this?.end()
