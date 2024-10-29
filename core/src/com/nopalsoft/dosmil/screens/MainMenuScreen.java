@@ -15,27 +15,27 @@ import com.nopalsoft.dosmil.game.GameScreen;
 
 public class MainMenuScreen extends Screens {
 
-    Image imgTitulo;
+    Image imageTitle;
 
-    Label lbPlay;
-    Label lbHelp;
-    Label lbLeaderboard;
-    Label lbRate;
+    Label labelPlay;
+    Label labelHelp;
+    Label labelLeaderboard;
+    Label labelRate;
 
 
-    Button btMusica;
-    Button btSonido;
-    Button btFacebook;
+    Button buttonMusic;
+    Button buttonSound;
+    Button buttonFacebook;
 
     public MainMenuScreen(final MainGame game) {
         super(game);
-        imgTitulo = new Image(Assets.title);
-        imgTitulo.setPosition(SCREEN_WIDTH / 2f - imgTitulo.getWidth() / 2f, 580);
+        imageTitle = new Image(Assets.title);
+        imageTitle.setPosition(SCREEN_WIDTH / 2f - imageTitle.getWidth() / 2f, 580);
 
-        lbPlay = new Label(Assets.languages.get("play"), Assets.labelStyleLarge);
-        lbPlay.setPosition(SCREEN_WIDTH / 2f - lbPlay.getWidth() / 2f, 450);
-        addPressEffect(lbPlay);
-        lbPlay.addListener(new ClickListener() {
+        labelPlay = new Label(Assets.languages.get("play"), Assets.labelStyleLarge);
+        labelPlay.setPosition(SCREEN_WIDTH / 2f - labelPlay.getWidth() / 2f, 450);
+        addPressEffect(labelPlay);
+        labelPlay.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 changeScreenWithFadeOut(GameScreen.class, game);
             }
@@ -43,10 +43,10 @@ public class MainMenuScreen extends Screens {
         });
 
         // Help
-        lbHelp = new Label(Assets.languages.get("help"), Assets.labelStyleLarge);
-        lbHelp.setPosition(SCREEN_WIDTH / 2f - lbHelp.getWidth() / 2f, 350);
-        addPressEffect(lbHelp);
-        lbHelp.addListener(new ClickListener() {
+        labelHelp = new Label(Assets.languages.get("help"), Assets.labelStyleLarge);
+        labelHelp.setPosition(SCREEN_WIDTH / 2f - labelHelp.getWidth() / 2f, 350);
+        addPressEffect(labelHelp);
+        labelHelp.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 changeScreenWithFadeOut(HelpScreen.class, game);
             }
@@ -54,44 +54,32 @@ public class MainMenuScreen extends Screens {
         });
 
         // Rate
-        lbRate = new Label(Assets.languages.get("rate"), Assets.labelStyleLarge);
-        lbRate.setPosition(SCREEN_WIDTH / 2f - lbRate.getWidth() / 2f, 250);
-        addPressEffect(lbRate);
-        lbRate.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                game.reqHandler.showRater();
-            }
-
-        });
+        labelRate = new Label(Assets.languages.get("rate"), Assets.labelStyleLarge);
+        labelRate.setPosition(SCREEN_WIDTH / 2f - labelRate.getWidth() / 2f, 250);
+        addPressEffect(labelRate);
+        labelRate.addListener(new ClickListener() {});
 
         // Leaderboard
-        lbLeaderboard = new Label(Assets.languages.get("leaderboard"), Assets.labelStyleLarge);
-        lbLeaderboard.setFontScale(.85f);
-        lbLeaderboard.setWidth(SCREEN_WIDTH);
-        lbLeaderboard.setPosition(SCREEN_WIDTH / 2f - lbLeaderboard.getWidth() / 2f, 150);
-        lbLeaderboard.setAlignment(Align.center);
-        lbLeaderboard.setWrap(true);
+        labelLeaderboard = new Label(Assets.languages.get("leaderboard"), Assets.labelStyleLarge);
+        labelLeaderboard.setFontScale(.85f);
+        labelLeaderboard.setWidth(SCREEN_WIDTH);
+        labelLeaderboard.setPosition(SCREEN_WIDTH / 2f - labelLeaderboard.getWidth() / 2f, 150);
+        labelLeaderboard.setAlignment(Align.center);
+        labelLeaderboard.setWrap(true);
 
-        addPressEffect(lbLeaderboard);
-        lbLeaderboard.addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if (game.gameServiceHandler.isSignedIn()) {
-                    game.gameServiceHandler.getLeaderboard();
-                } else
-                    game.gameServiceHandler.signIn();
-
-            }
+        addPressEffect(labelLeaderboard);
+        labelLeaderboard.addListener(new ClickListener() {
 
         });
 
-        btMusica = new Button(Assets.buttonStyleMusic);
-        btMusica.setPosition(5, 5);
-        btMusica.setChecked(!Settings.isMusicOn);
-        btMusica.addListener(new ClickListener() {
+        buttonMusic = new Button(Assets.buttonStyleMusic);
+        buttonMusic.setPosition(5, 5);
+        buttonMusic.setChecked(!Settings.isMusicOn);
+        buttonMusic.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.isMusicOn = !Settings.isMusicOn;
-                btMusica.setChecked(!Settings.isMusicOn);
+                buttonMusic.setChecked(!Settings.isMusicOn);
                 if (Settings.isMusicOn)
                     Assets.playMusic();
                 else
@@ -100,36 +88,31 @@ public class MainMenuScreen extends Screens {
             }
         });
 
-        btSonido = new Button(Assets.buttonStyleSound);
-        btSonido.setPosition(75, 5);
-        btSonido.setChecked(!Settings.isSoundOn);
-        btSonido.addListener(new ClickListener() {
+        buttonSound = new Button(Assets.buttonStyleSound);
+        buttonSound.setPosition(75, 5);
+        buttonSound.setChecked(!Settings.isSoundOn);
+        buttonSound.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 Settings.isSoundOn = !Settings.isSoundOn;
-                btSonido.setChecked(!Settings.isSoundOn);
+                buttonSound.setChecked(!Settings.isSoundOn);
             }
         });
 
-        btFacebook = new Button(Assets.buttonFacebook);
-        btFacebook.setSize(50, 50);
-        btFacebook.setPosition(SCREEN_WIDTH - btFacebook.getWidth() - 5, 10);
-        addPressEffect(btFacebook);
-        btFacebook.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.reqHandler.showFacebook();
-            }
-        });
+        buttonFacebook = new Button(Assets.buttonFacebook);
+        buttonFacebook.setSize(50, 50);
+        buttonFacebook.setPosition(SCREEN_WIDTH - buttonFacebook.getWidth() - 5, 10);
+        addPressEffect(buttonFacebook);
+        buttonFacebook.addListener(new ClickListener() {});
 
-        stage.addActor(imgTitulo);
-        stage.addActor(lbPlay);
-        stage.addActor(lbHelp);
-        stage.addActor(lbLeaderboard);
-        stage.addActor(lbRate);
-        stage.addActor(btMusica);
-        stage.addActor(btSonido);
-        stage.addActor(btFacebook);
+        stage.addActor(imageTitle);
+        stage.addActor(labelPlay);
+        stage.addActor(labelHelp);
+        stage.addActor(labelLeaderboard);
+        stage.addActor(labelRate);
+        stage.addActor(buttonMusic);
+        stage.addActor(buttonSound);
+        stage.addActor(buttonFacebook);
 
     }
 

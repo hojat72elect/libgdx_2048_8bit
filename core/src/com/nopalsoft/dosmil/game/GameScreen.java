@@ -39,7 +39,6 @@ public class GameScreen extends Screens {
         initUI();
 
         Settings.numberTimesPlayed++;
-        game.reqHandler.loadInterstitial();
 
     }
 
@@ -130,9 +129,6 @@ public class GameScreen extends Screens {
     public void hide() {
         super.hide();
         stageGame.dispose();
-        game.reqHandler.hideAdBanner();
-        if (Settings.numberTimesPlayed % 3 == 0)
-            game.reqHandler.showInterstitial();
     }
 
     private void setPaused() {
@@ -140,24 +136,19 @@ public class GameScreen extends Screens {
             return;
         state = STATE_PAUSED;
         stage.addActor(screenPaused);
-        game.reqHandler.showAdBanner();
-
     }
 
     public void setRunning() {
         if (state == STATE_GAME_OVER)
             return;
         state = STATE_RUNNING;
-        game.reqHandler.hideAdBanner();
     }
 
     private void setGameOver() {
         state = STATE_GAME_OVER;
         Settings.setBestScores(board.score);
-        game.gameServiceHandler.submitScore(board.score);
         com.nopalsoft.dosmil.scene2d.ScreenGameOver oGameOver = new com.nopalsoft.dosmil.scene2d.ScreenGameOver(this, board.didWin, (int) board.time, board.score);
         stage.addActor(oGameOver);
-        game.reqHandler.showAdBanner();
 
     }
 

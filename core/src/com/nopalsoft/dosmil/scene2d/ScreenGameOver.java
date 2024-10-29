@@ -86,10 +86,6 @@ public class ScreenGameOver extends Group {
         buttonShareTwitter.setPosition(155, 110);
         screen.addPressEffect(buttonShareTwitter);
         buttonShareTwitter.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                screen.game.reqHandler.shareOnTwitter("My best score playing 2048 8Bit is " + Settings.bestScore + " points, can you beat me?");
-            }
         });
 
         buttonShareFacebook = new Button(Assets.buttonFacebook);
@@ -97,10 +93,6 @@ public class ScreenGameOver extends Group {
         buttonShareFacebook.setPosition(225, 110);
         screen.addPressEffect(buttonShareFacebook);
         buttonShareFacebook.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                screen.game.reqHandler.shareOnFacebook("My best score playing 2048 8Bit is " + Settings.bestScore + " points, can you beat me?");
-            }
         });
 
         final Label labelMainMenu = new Label(Assets.languages.get("menu"), Assets.labelStyleLarge);
