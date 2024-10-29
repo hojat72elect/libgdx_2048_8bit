@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Array.ArrayIterator;
 import com.nopalsoft.dosmil.Assets;
 import com.nopalsoft.dosmil.screens.Screens;
-import com.nopalsoft.dosmil.objects.Piece;
+import com.nopalsoft.dosmil.objects.Tile;
 import java.util.Iterator;
 
 public class Board extends Group {
@@ -23,7 +23,7 @@ public class Board extends Group {
     public boolean moveUp, moveDown, moveLeft, moveRight;
     public boolean didWin;
 
-    Array<com.nopalsoft.dosmil.objects.Piece> arrayPieces;
+    Array<com.nopalsoft.dosmil.objects.Tile> arrayPieces;
 
     public Board() {
         setSize(480, 480);
@@ -36,7 +36,7 @@ public class Board extends Group {
 
         // I initialize the board with pure zeros
         for (int i = 0; i < 16; i++) {
-            addActor(new com.nopalsoft.dosmil.objects.Piece(i, 0));
+            addActor(new com.nopalsoft.dosmil.objects.Tile(i, 0));
         }
 
         addPiece();
@@ -62,7 +62,7 @@ public class Board extends Group {
             vacio = checkEmptySpace(num);
         }
         int worth = MathUtils.random(1) == 0 ? 2 : 4; // The initial value can be 2 or 4
-        Piece obj = new Piece(num, worth);
+        Tile obj = new Tile(num, worth);
         arrayPieces.add(obj);
         addActor(obj);
 
@@ -75,8 +75,8 @@ public class Board extends Group {
         // If there are no pending actions now I will go to gameover
         if (state == STATE_NO_MORE_MOVES) {
             int numActions = 0;
-            for (Piece piece : arrayPieces) {
-                numActions += piece.getActions().size;
+            for (Tile tile : arrayPieces) {
+                numActions += tile.getActions().size;
             }
             numActions += getActions().size;
             if (numActions == 0)
@@ -88,19 +88,19 @@ public class Board extends Group {
 
         if (moveUp) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Piece> i = arrayPieces.iterator();
+                Iterator<Tile> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Piece obj = i.next();
+                    Tile obj = i.next();
                     int nextPos = obj.position - 4;
                     // First I check if it can be put together
                     if (checkMergeUp(obj.position, nextPos)) {
-                        Piece nextPiece = getPieceInPosition(nextPos);
-                        if (!nextPiece.justChanged && !obj.justChanged) {
+                        Tile nextTile = getPieceInPosition(nextPos);
+                        if (!nextTile.justChanged && !obj.justChanged) {
                             i.remove();
                             removePiece(obj);
-                            nextPiece.setWorth(nextPiece.getWorth() * 2);
-                            score += nextPiece.getWorth();
-                            nextPiece.justChanged = true;
+                            nextTile.setWorth(nextTile.getWorth() * 2);
+                            score += nextTile.getWorth();
+                            nextTile.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
@@ -113,19 +113,19 @@ public class Board extends Group {
             }
         } else if (moveDown) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Piece> i = arrayPieces.iterator();
+                Iterator<Tile> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Piece obj = i.next();
+                    Tile obj = i.next();
                     int nextPos = obj.position + 4;
                     // First I check if it can be put together
                     if (checkMergeUp(obj.position, nextPos)) {
-                        Piece nextPiece = getPieceInPosition(nextPos);
-                        if (!nextPiece.justChanged && !obj.justChanged) {
+                        Tile nextTile = getPieceInPosition(nextPos);
+                        if (!nextTile.justChanged && !obj.justChanged) {
                             i.remove();
                             removePiece(obj);
-                            nextPiece.setWorth(nextPiece.getWorth() * 2);
-                            score += nextPiece.getWorth();
-                            nextPiece.justChanged = true;
+                            nextTile.setWorth(nextTile.getWorth() * 2);
+                            score += nextTile.getWorth();
+                            nextTile.justChanged = true;
                             didMovePieza = true;
                             continue;
                         }
@@ -138,16 +138,16 @@ public class Board extends Group {
             }
         } else if (moveLeft) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Piece> i = arrayPieces.iterator();
+                Iterator<Tile> i = arrayPieces.iterator();
                 while (i.hasNext()) {
-                    Piece piece = i.next();
-                    int nextPosition = piece.position - 1;
+                    Tile tile = i.next();
+                    int nextPosition = tile.position - 1;
                     // First I check if it can be put together
-                    if (checkMergeSides(piece.position, nextPosition)) {
-                        Piece objNext = getPieceInPosition(nextPosition);
-                        if (!objNext.justChanged && !piece.justChanged) {
+                    if (checkMergeSides(tile.position, nextPosition)) {
+                        Tile objNext = getPieceInPosition(nextPosition);
+                        if (!objNext.justChanged && !tile.justChanged) {
                             i.remove();
-                            removePiece(piece);
+                            removePiece(tile);
                             objNext.setWorth(objNext.getWorth() * 2);
                             score += objNext.getWorth();
                             objNext.justChanged = true;
@@ -156,20 +156,20 @@ public class Board extends Group {
                         }
                     }
                     if (checkEmptySpaceLeft(nextPosition)) {
-                        piece.moveToPosition(nextPosition);
+                        tile.moveToPosition(nextPosition);
                         didMovePieza = true;
                     }
                 }
             }
         } else if (moveRight) {
             for (int con = 0; con < 4; con++) {
-                Iterator<Piece> iterator = arrayPieces.iterator();
+                Iterator<Tile> iterator = arrayPieces.iterator();
                 while (iterator.hasNext()) {
-                    Piece obj = iterator.next();
+                    Tile obj = iterator.next();
                     int nextPos = obj.position + 1;
                     // First I check if it can be put together
                     if (checkMergeSides(obj.position, nextPos)) {
-                        Piece objNext = getPieceInPosition(nextPos);
+                        Tile objNext = getPieceInPosition(nextPos);
                         if (!objNext.justChanged && !obj.justChanged) {
                             iterator.remove();
                             removePiece(obj);
@@ -213,8 +213,8 @@ public class Board extends Group {
             return false;
         if ((currentPosition == 12 || currentPosition == 8 || currentPosition == 4) && nextPosition < currentPosition)
             return false;
-        Piece obj1 = getPieceInPosition(currentPosition);
-        Piece obj2 = getPieceInPosition(nextPosition);
+        Tile obj1 = getPieceInPosition(currentPosition);
+        Tile obj2 = getPieceInPosition(nextPosition);
 
         if (obj1 == null || obj2 == null)
             return false;
@@ -224,17 +224,17 @@ public class Board extends Group {
 
     private boolean checkMergeUp(int posActual, int nextPosition) {
 
-        Piece piece1 = getPieceInPosition(posActual);
-        Piece piece2 = getPieceInPosition(nextPosition);
+        Tile tile1 = getPieceInPosition(posActual);
+        Tile tile2 = getPieceInPosition(nextPosition);
 
-        if (piece1 == null || piece2 == null)
+        if (tile1 == null || tile2 == null)
             return false;
-        else return piece1.getWorth() == piece2.getWorth();
+        else return tile1.getWorth() == tile2.getWorth();
 
     }
 
     private boolean checkEmptySpace(int position) {
-        ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
+        ArrayIterator<Tile> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
             if (ite.next().position == position)
                 return false;
@@ -266,10 +266,10 @@ public class Board extends Group {
         return checkEmptySpace(position);
     }
 
-    private Piece getPieceInPosition(int position) {
-        ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
+    private Tile getPieceInPosition(int position) {
+        ArrayIterator<Tile> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
-            Piece obj = ite.next();
+            Tile obj = ite.next();
             if (obj.position == position)
                 return obj;
         }
@@ -281,9 +281,9 @@ public class Board extends Group {
     }
 
     private boolean didWin() {
-        ArrayIterator<Piece> ite = new ArrayIterator<>(arrayPieces);
+        ArrayIterator<Tile> ite = new ArrayIterator<>(arrayPieces);
         while (ite.hasNext()) {
-            Piece obj = ite.next();
+            Tile obj = ite.next();
             if (obj.getWorth() >= 2000)// If there is a piece worth more than 15 thousand, you win.
                 return true;
         }
@@ -321,8 +321,8 @@ public class Board extends Group {
         return false;
     }
 
-    private void removePiece(Piece piece) {
-        removeActor(piece);
-        arrayPieces.removeValue(piece, true);
+    private void removePiece(Tile tile) {
+        removeActor(tile);
+        arrayPieces.removeValue(tile, true);
     }
 }
