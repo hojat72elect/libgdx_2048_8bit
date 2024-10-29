@@ -26,8 +26,8 @@ class ScreenGameOver(screen: Screens, didWin: Boolean, time: Int, score: Long) :
         background.setSize(width, height)
         addActor(background)
 
-        var gameOverTitle = Assets.languages["gameOver"]
-        if (didWin) gameOverTitle = Assets.languages["congratulations"]
+        var gameOverTitle = Assets.languages?.get("gameOver")
+        if (didWin) gameOverTitle = Assets.languages?.get("congratulations")
 
         val labelCongratulations = Label(gameOverTitle, Assets.labelStyleLarge)
         labelCongratulations.setAlignment(Align.center)
@@ -42,15 +42,15 @@ class ScreenGameOver(screen: Screens, didWin: Boolean, time: Int, score: Long) :
 
 
         // ACTUAL TIME
-        val labelTime = Label(Assets.languages["time"], Assets.labelStyleSmall)
+        val labelTime = Label(Assets.languages?.get("time"), Assets.labelStyleSmall)
         labelTime.setAlignment(Align.left)
 
-        val labelNumTime = Label(time.toString() + Assets.languages["secondAbbreviation"], Assets.labelStyleSmall)
+        val labelNumTime = Label(time.toString() + (Assets.languages?.get("secondAbbreviation")), Assets.labelStyleSmall)
         labelNumTime.setAlignment(Align.right)
 
 
         // ACTUAL SCORE
-        val labelScore = Label(Assets.languages["score"], Assets.labelStyleSmall)
+        val labelScore = Label(Assets.languages?.get("score"), Assets.labelStyleSmall)
         labelScore.setAlignment(Align.left)
 
         val labelNumScore = Label(score.toString() + "", Assets.labelStyleSmall)
@@ -58,7 +58,7 @@ class ScreenGameOver(screen: Screens, didWin: Boolean, time: Int, score: Long) :
 
 
         // BEST MOVES
-        val labelBestScore = Label(Assets.languages["bestScore"], Assets.labelStyleSmall)
+        val labelBestScore = Label(Assets.languages?.get("bestScore"), Assets.labelStyleSmall)
         labelBestScore.setAlignment(Align.left)
 
         val labelBestNumScore = Label(Settings.bestScore.toString(), Assets.labelStyleSmall)
@@ -94,7 +94,7 @@ class ScreenGameOver(screen: Screens, didWin: Boolean, time: Int, score: Long) :
         buttonShareFacebook.addListener(object : ClickListener() {
         })
 
-        val labelMainMenu = Label(Assets.languages["menu"], Assets.labelStyleLarge)
+        val labelMainMenu = Label(Assets.languages?.get("menu"), Assets.labelStyleLarge)
         labelMainMenu.width = width - 10
         labelMainMenu.setFontScale(.75f)
         labelMainMenu.setPosition(width / 2f - labelMainMenu.width / 2f, 30f)

@@ -12,8 +12,8 @@ import com.nopalsoft.dosmil.MainGame
 
 class HelpScreen(game: MainGame) : Screens(game) {
 
-    private val labelTextHelp1 = Label(Assets.languages.get("helpTop"), Assets.labelStyleSmall)
-    private val labelTextHelp2 = Label(Assets.languages.get("helpBottom"), Assets.labelStyleSmall)
+    private val labelTextHelp1 = Label(Assets.languages?.get("helpTop"), Assets.labelStyleSmall)
+    private val labelTextHelp2 = Label(Assets.languages?.get("helpBottom"), Assets.labelStyleSmall)
     private val imagePuzzle = Image(Assets.puzzleSolved)
     private val buttonBack = Button(Assets.buttonBack)
 
@@ -49,19 +49,19 @@ class HelpScreen(game: MainGame) : Screens(game) {
 
         // Add all of them to our screen
         with(stage) {
-            addActor(labelTextHelp1)
-            addActor(labelTextHelp2)
-            addActor(buttonBack)
-            addActor(imagePuzzle)
+            this?.addActor(labelTextHelp1)
+            this?.addActor(labelTextHelp2)
+            this?.addActor(buttonBack)
+            this?.addActor(imagePuzzle)
         }
 
     }
 
     override fun draw(delta: Float) {
         with(batcher){
-            begin()
-            draw(Assets.background, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
-            end()
+            this?.begin()
+            this?.draw(Assets.background, 0f, 0f, SCREEN_WIDTH.toFloat(), SCREEN_HEIGHT.toFloat())
+            this?.end()
         }
 
     }
